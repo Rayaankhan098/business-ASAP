@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Dashboard — business-ASAP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0a0a0f;
+    --bg2:     #111118;
+    --bg3:     #18181f;
+    --border:  rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text:    #f0efe8;
+    --muted:   #888880;
+    --accent:  #c8f04a;
+    --accent2: #7c6aff;
+    --accent3: #ff6a3d;
+    --green:   #4ade80;
+    --amber:   #fbbf24;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --r: 14px;
+    --r2: 20px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── DASHBOARD ── */
+  #dashboard { display: block; }
+
+  header {
+    background: rgba(10,10,15,0.9);
+    backdrop-filter: blur(16px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .header-logo {
+    font-family: var(--font-head);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .header-logo span { color: var(--accent); }
+  .header-tag {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-left: 12px;
+  }
+
+  .header-right { display: flex; align-items: center; gap: 16px; }
+
+.main { max-width: 1200px; margin: 0 auto; padding: 40px; }
+
+  /* ── STAT CARDS ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .stat-card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r2);
+    padding: 24px 22px;
+  }
+
+  .stat-card-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .stat-card-val {
+    font-family: var(--font-head);
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--text);
+  }
+
+  .stat-card-val.green { color: var(--green); }
+  .stat-card-val.amber { color: var(--amber); }
+  .stat-card-val.orange { color: var(--accent3); }
+
+  /* ── TABLE ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .section-title {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .clear-btn {
+    background: transparent;
+    border: 0.5px solid rgba(255,106,61,0.3);
+    color: var(--accent3);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .clear-btn:hover { background: rgba(255,106,61,0.08); }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 0.5px solid var(--border);
+    border-radius: var(--r2);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead tr {
+    background: var(--bg3);
+    border-bottom: 0.5px solid var(--border2);
+  }
+
+  th {
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 14px 16px;
+    border-bottom: 0.5px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+
+  tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+  }
+  .badge-green  { background: rgba(74,222,128,0.12); color: var(--green); border: 0.5px solid rgba(74,222,128,0.25); }
+  .badge-amber  { background: rgba(251,191,36,0.12);  color: var(--amber); border: 0.5px solid rgba(251,191,36,0.25); }
+  .badge-orange { background: rgba(255,106,61,0.12); color: var(--accent3); border: 0.5px solid rgba(255,106,61,0.25); }
+
+  .score-pill {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 800;
+  }
+  .score-pill.high  { color: var(--green); }
+  .score-pill.mid   { color: var(--amber); }
+  .score-pill.low   { color: var(--muted); }
+
+  .chips-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-width: 220px;
+  }
+  .chip-tag {
+    background: var(--bg3);
+    border: 0.5px solid var(--border2);
+    border-radius: 50px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .muted-text { color: var(--muted); }
+  .name-cell { font-weight: 600; color: var(--text); }
+  .email-cell { color: var(--accent2); font-size: 12px; }
+
+  /* detail expand */
+  .expand-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+    transition: color 0.2s;
+  }
+  .expand-btn:hover { color: var(--text); }
+
+  .detail-row td {
+    background: var(--bg2);
+    padding: 16px 20px;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .detail-item label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .detail-item p { font-size: 13px; color: var(--text); }
+
+  /* empty state */
+  .empty-state {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .empty-state p { margin-top: 8px; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="header-logo">business-ASAP<span>.</span></div>
+      <div class="header-tag">Admin</div>
+    </div>
+    <div class="header-right">
+      <span style="font-size:13px;color:var(--muted);">Dashboard</span>
+    </div>
+  </header>
+
+  <div class="main">
+
+    <!-- Stats -->
+    <div class="stats-row" id="stats-row"></div>
+
+    <!-- Table -->
+    <div class="section-head">
+      <div class="section-title">Client Submissions</div>
+      <button class="clear-btn" onclick="clearAll()">Clear all data</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Startup</th>
+            <th>Email</th>
+            <th>Industry</th>
+            <th>Budget</th>
+            <th>Market</th>
+            <th>Score</th>
+            <th>Status</th>
+            <th>Submitted</th>
+          </tr>
+        </thead>
+        <tbody id="submissions-body"></tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', renderDashboard);
+
+  // ── RENDER ──
+  function getSubmissions() {
+    return JSON.parse(localStorage.getItem('asap_submissions') || '[]');
+  }
+
+  function renderDashboard() {
+    const subs = getSubmissions();
+    renderStats(subs);
+    renderTable(subs);
+  }
+
+  function renderStats(subs) {
+    const total = subs.length;
+    const fastTracked = subs.filter(s => s.fastTracked).length;
+    const avgScore = total ? Math.round(subs.reduce((a,s) => a + s.score, 0) / total) : 0;
+    const today = subs.filter(s => s.submittedAt.startsWith(new Date().toISOString().slice(0,10))).length;
+    const dealAccepted = subs.filter(s => s.dealAccepted).length;
+
+    const stats = [
+      { label: 'Total Submissions', val: total, cls: '' },
+      { label: 'Deals Accepted', val: dealAccepted, cls: 'green' },
+      { label: 'Fast-tracked', val: fastTracked, cls: 'amber' },
+      { label: 'Avg Score', val: total ? avgScore + '/100' : '—', cls: avgScore >= 75 ? 'green' : 'amber' },
+    ];
+
+    document.getElementById('stats-row').innerHTML = stats.map(s =>
+      `<div class="stat-card">
+        <div class="stat-card-label">${s.label}</div>
+        <div class="stat-card-val ${s.cls}">${s.val}</div>
+      </div>`
+    ).join('');
+  }
+
+  const BUDGET_LABELS = { '<1k':'Under $1k','1-5k':'$1k–$5k','5-15k':'$5k–$15k','15k+':'$15k+','equity':'Equity deal','' :'—' };
+  const MARKET_LABELS = { local:'Local',national:'National',regional:'Regional',global:'Global','':'—' };
+
+  function renderTable(subs) {
+    const tbody = document.getElementById('submissions-body');
+    if (!subs.length) {
+      tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state"><strong>No submissions yet.</strong><p>Completed wizard reports will appear here.</p></div></td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = subs.map((s, i) => {
+      const date = new Date(s.submittedAt).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+      const time = new Date(s.submittedAt).toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+      const scoreCls = s.score >= 75 ? 'high' : s.score >= 60 ? 'mid' : 'low';
+      const statusBadge = s.dealAccepted
+        ? '<span class="badge badge-green">Deal Accepted</span>'
+        : s.fastTracked
+          ? '<span class="badge badge-amber">Fast-tracked</span>'
+          : '<span class="badge badge-amber">Needs refinement</span>';
+
+      return `
+        <tr>
+          <td><button class="expand-btn" title="Details" onclick="toggleDetail(${i})">+</button></td>
+          <td><div class="name-cell">${esc(s.name)}</div></td>
+          <td><div class="email-cell">${esc(s.email)}</div></td>
+          <td><span class="muted-text">${esc(s.industry)}</span></td>
+          <td><span class="muted-text">${BUDGET_LABELS[s.budget] || s.budget}</span></td>
+          <td><span class="muted-text">${MARKET_LABELS[s.marketSize] || s.marketSize}</span></td>
+          <td><span class="score-pill ${scoreCls}">${s.score}/100</span></td>
+          <td>${statusBadge}</td>
+          <td><span class="muted-text">${date}</span><br/><span style="font-size:11px;color:var(--muted)">${time}</span></td>
+        </tr>
+        <tr class="detail-row" id="detail-${i}" style="display:none;">
+          <td colspan="9">
+            <div class="detail-grid">
+              <div class="detail-item"><label>Idea Description</label><p>${esc(s.ideaDesc)}</p></div>
+              <div class="detail-item"><label>Target Audience</label><p>${esc(s.audience)}</p></div>
+              <div class="detail-item"><label>Timeline</label><p>${esc(s.timeline) || '—'}</p></div>
+              <div class="detail-item"><label>Recommended Tier</label><p>${esc(s.tier)}</p></div>
+              ${s.dealAccepted ? `<div class="detail-item"><label>Deal Accepted At</label><p style="color:#4ade80;">${new Date(s.dealAcceptedAt).toLocaleString('en-GB')}</p></div>` : ''}
+              <div class="detail-item">
+                <label>Tech Needs</label>
+                <div class="chips-list">${(s.techNeeds||[]).map(t=>`<span class="chip-tag">${esc(t)}</span>`).join('')||'—'}</div>
+              </div>
+              <div class="detail-item">
+                <label>Services</label>
+                <div class="chips-list">${(s.services||[]).map(t=>`<span class="chip-tag">${esc(t)}</span>`).join('')||'—'}</div>
+              </div>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+  }
+
+  function toggleDetail(i) {
+    const row = document.getElementById('detail-' + i);
+    const btn = row.previousElementSibling.querySelector('.expand-btn');
+    const open = row.style.display !== 'none';
+    row.style.display = open ? 'none' : 'table-row';
+    btn.textContent = open ? '+' : '−';
+  }
+
+  function clearAll() {
+    if (!confirm('Delete all submissions? This cannot be undone.')) return;
+    localStorage.removeItem('asap_submissions');
+    renderDashboard();
+  }
+
+  function esc(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>

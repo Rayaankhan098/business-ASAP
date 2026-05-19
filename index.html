@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SIAB — Startup in a Box</title>
+<title>business-ASAP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
@@ -155,6 +155,7 @@
     color: var(--accent);
   }
 
+
   .hero-sub {
     max-width: 560px;
     margin: 0 auto 40px;
@@ -237,6 +238,10 @@
     text-transform: uppercase;
     color: var(--accent);
     margin-bottom: 12px;
+  }
+
+  #pricing .section-tag {
+    color: var(--accent3);
   }
 
   h2 {
@@ -534,16 +539,7 @@
     margin-top: 56px;
   }
 
-  .pricing-card {
-    background: var(--bg);
-    border: 0.5px solid var(--border);
-    border-radius: var(--r2);
-    padding: 32px 28px;
-    display: flex;
-    flex-direction: column;
-    transition: border-color 0.2s, transform 0.2s;
-    position: relative;
-    overflow: hidden;
+  
   }
   .pricing-card:hover { border-color: var(--border2); transform: translateY(-4px); }
 
@@ -813,11 +809,11 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">SIAB<span>.</span></a>
+  <a href="#" class="nav-logo">business-ASAP<span>.</span></a>
   <ul class="nav-links">
     <li><a href="#how">How it works</a></li>
     <li><a href="#wizard">Validate idea</a></li>
-    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#pricing">Our Deal</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#cta" class="nav-cta">Get started</a></li>
   </ul>
@@ -829,7 +825,7 @@
   <div>
     <div class="hero-badge">Now onboarding founders</div>
     <h1>Launch your<br/><em>tech startup</em><br/>in 30 days.</h1>
-    <p class="hero-sub">Code, office space, and team — all handled. SIAB turns your idea into a live business without the chaos.</p>
+    <p class="hero-sub">Code, office space, and team — all handled. business-ASAP turns your idea into a live business without the chaos.</p>
     <div class="hero-actions">
       <a href="#wizard" class="btn-primary">Validate my idea →</a>
       <a href="#how" class="btn-ghost">See how it works</a>
@@ -858,74 +854,6 @@
     <h2>Four pillars.<br/>One platform.</h2>
     <p class="section-intro">Everything a non-technical founder needs — from idea to launch — in a single, orchestrated system.</p>
     <div class="pillars">
-      <div class="pillar">
-        <div class="pillar-num">01</div>
-        <div class="pillar-icon" style="background: rgba(200,240,74,0.12);">🧠</div>
-        <h3>AI Idea Validation</h3>
-        <p>Submit your concept via an interactive wizard. Our AI engine generates a full Market Viability Report — market size, competitor matrix, and a live viability score.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-num">02</div>
-        <div class="pillar-icon" style="background: rgba(124,106,255,0.12);">⚡</div>
-        <h3>Rapid Tech Build</h3>
-        <p>Standardized boilerplates — auth, payments, push notifications, analytics — turn a 3-month custom build into a 3-week assembly line. Premium quality, fraction of the cost.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-num">03</div>
-        <div class="pillar-icon" style="background: rgba(255,106,61,0.12);">🏢</div>
-        <h3>Office Network</h3>
-        <p>Zero real estate risk. We're a high-volume broker partnered with co-working hubs across the region. Your plan includes digital access tokens for physical workspace.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-num">04</div>
-        <div class="pillar-icon" style="background: rgba(239,159,39,0.12);">👥</div>
-        <h3>On-Demand Talent</h3>
-        <p>Need marketers, designers, or legal consultants? Our vetted contractor ecosystem matches and delivers — with escrow-protected payments and a 15–25% platform guarantee.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- IDEA WIZARD -->
-<section id="wizard">
-  <div class="container">
-    <div class="section-tag">Idea Intake</div>
-    <h2>Validate before<br/>you build.</h2>
-    <p class="section-intro">Run your idea through our 4-step assessment. Ideas scoring above 75% are fast-tracked to our engineering team.</p>
-
-    <div class="wizard-wrap">
-      <!-- Step Sidebar -->
-      <div class="wizard-steps" id="stepList">
-        <div class="wstep active" data-step="1">
-          <div class="wstep-dot">1</div>
-          <div class="wstep-text">
-            <strong>Your Idea</strong>
-            <span>Describe what you're building</span>
-          </div>
-        </div>
-        <div class="wstep" data-step="2">
-          <div class="wstep-dot">2</div>
-          <div class="wstep-text">
-            <strong>Market & Budget</strong>
-            <span>Target audience & investment</span>
-          </div>
-        </div>
-        <div class="wstep" data-step="3">
-          <div class="wstep-dot">3</div>
-          <div class="wstep-text">
-            <strong>Tech Needs</strong>
-            <span>What you need us to build</span>
-          </div>
-        </div>
-        <div class="wstep" data-step="4">
-          <div class="wstep-dot">4</div>
-          <div class="wstep-text">
-            <strong>Your Report</strong>
-            <span>Viability score & recommendation</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Form Panels -->
       <div class="wizard-card">
         <!-- Step 1 -->
@@ -1005,7 +933,7 @@
         <!-- Step 3 -->
         <div class="form-panel" id="panel-3">
           <h3>What do you need?</h3>
-          <p>Select everything you'd like SIAB to handle. We'll scope this into a recommended tier.</p>
+          <p>Select everything you'd like business-ASAP to handle. We'll scope this into a recommended tier.</p>
           <div class="form-group">
             <label>Tech deliverables needed</label>
             <div class="chip-group" id="tech-chips">
@@ -1090,94 +1018,74 @@
 <!-- PRICING -->
 <section id="pricing">
   <div class="container">
-    <div class="section-tag">Pricing</div>
-    <h2>One tier for every<br/>stage of your journey.</h2>
-    <p class="section-intro">Flat fees, monthly retainers, or equity deals — structured around your current stage and goals.</p>
+    <div class="section-tag">Our Deal</div>
+    <h2>No upfront cost.<br/>We get your business<br/>up and running.</h2>
+    <p class="section-intro">We don't charge you a single dollar. We take 25% of your company, roll up our sleeves, and turn your idea into a fully operational business — from zero to live.</p>
 
-    <div class="pricing-grid">
-      <!-- Tier 1 -->
-      <div class="pricing-card">
-        <div class="pricing-tier">Tier 1</div>
-        <div class="pricing-name">The Blueprint</div>
-        <div class="pricing-desc">For early-stage ideators with low budgets who need validation before committing capital.</div>
-        <div class="pricing-price">
-          <div class="price-main">$250<span style="font-size:18px; font-weight:400; color:var(--muted);">–$500</span></div>
-          <div class="price-note">One-time flat fee</div>
-        </div>
-        <ul class="pricing-features">
-          <li>AI Market Viability Report (10 pages)</li>
-          <li>Interactive Pitch Deck Builder</li>
-          <li>Competitor Matrix</li>
-          <li>1-Hour Architectural Scoping Call</li>
-        </ul>
-        <a href="#wizard" class="btn-ghost">Get started</a>
-      </div>
+    <!-- Objection handling -->
+    <div style="margin-top: 64px;">
+      <h2 style="font-family: var(--font-head); font-size: 36px; font-weight: 800; text-align: center; color: var(--text); margin-bottom: 10px;">Why 25% is a great deal for you</h2>
+      <h3 style="font-family: var(--font-head); font-size: 22px; font-weight: 700; text-align: center; color: var(--muted); margin-bottom: 12px;">Think of it this way.</h3>
+      <p style="text-align: center; color: var(--muted); font-size: 15px; max-width: 540px; margin: 0 auto 48px;">A business that doesn't exist is worth 0%. We turn your idea into a real, running company — and you still own 75% of it.</p>
 
-      <!-- Tier 2 -->
-      <div class="pricing-card featured">
-        <div class="featured-badge">Most popular</div>
-        <div class="pricing-tier">Tier 2</div>
-        <div class="pricing-name">The Launchpad</div>
-        <div class="pricing-desc">For non-technical founders ready to go to market. Everything needed to launch and validate.</div>
-        <div class="pricing-price">
-          <div class="price-main">$5k<span style="font-size:18px; font-weight:400; color:var(--muted);">–$15k</span></div>
-          <div class="price-note">Based on scope complexity</div>
-        </div>
-        <ul class="pricing-features">
-          <li>Complete MVP Web Application</li>
-          <li>Basic Mobile App</li>
-          <li>Standard Boilerplate Integrations</li>
-          <li>3 Months Free Co-Working Vouchers</li>
-          <li>Hosting setup & deployment</li>
-        </ul>
-        <a href="#cta" class="btn-primary">Apply now →</a>
-      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
 
-      <!-- Tier 3 -->
-      <div class="pricing-card">
-        <div class="pricing-tier">Tier 3</div>
-        <div class="pricing-name">The Scale Engine</div>
-        <div class="pricing-desc">For funded startups and established businesses ready to accelerate growth and hiring.</div>
-        <div class="pricing-price">
-          <div class="price-main">$2.5k<span style="font-size:18px; font-weight:400; color:var(--muted);">/mo</span></div>
-          <div class="price-note">Monthly retainer, $6k max</div>
+        <div style="background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r2); padding: 28px 24px;">
+          <div style="font-size: 22px; margin-bottom: 12px;">💸</div>
+          <div style="font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px;">"Agencies charge $20k–$80k just to build the app."</div>
+          <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">With us you pay $0 upfront. That cash stays in your pocket to grow the business — not pay invoices. 25% of a thriving company is worth far more than saving a one-time agency fee.</p>
         </div>
-        <ul class="pricing-features">
-          <li>Ongoing scale development</li>
-          <li>Dedicated vetted Project Manager</li>
-          <li>3 Full-Time Marketplace Contract Hours</li>
-          <li>Dedicated partner office space</li>
-          <li>Priority engineering queue</li>
-        </ul>
-        <a href="#cta" class="btn-ghost">Talk to us</a>
-      </div>
 
-      <!-- Tier 4 -->
-      <div class="pricing-card" style="border-color: rgba(255,106,61,0.3); background: linear-gradient(160deg, rgba(255,106,61,0.06) 0%, var(--bg) 60%);">
-        <div class="pricing-tier">Tier 4</div>
-        <div class="pricing-name">Co-Founder Circle</div>
-        <div class="pricing-desc">For exceptional high-potential ideas. We become your tech co-founder in exchange for equity.</div>
-        <div class="pricing-price">
-          <div class="price-equity">7% – 15% Equity</div>
-          <div class="price-note">+ minimal cost coverage</div>
+        <div style="background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r2); padding: 28px 24px;">
+          <div style="font-size: 22px; margin-bottom: 12px;">🤝</div>
+          <div style="font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px;">"We're aligned — not just hired."</div>
+          <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">A freelancer gets paid whether you succeed or fail. We only win if you win. That means we're motivated to push your business forward with everything we have — not just deliver and disappear.</p>
         </div>
-        <ul class="pricing-features">
-          <li>Zero / reduced upfront cash</li>
-          <li>All-inclusive: design, tech, space, advisory</li>
-          <li>Automated vestment schedule</li>
-          <li>Board advisory involvement</li>
-          <li>Long-term growth partnership</li>
-        </ul>
-        <a href="#cta" class="btn-ghost" style="border-color: rgba(255,106,61,0.4); color: #ff6a3d;">Apply for equity deal</a>
+
+        <div style="background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r2); padding: 28px 24px;">
+          <div style="font-size: 22px; margin-bottom: 12px;">🏗️</div>
+          <div style="font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px;">"We build everything — not just the app."</div>
+          <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">Tech, office, team, legal, marketing — it all costs money. We absorb those costs so you can focus on growth. The 25% covers an entire team of professionals working full-time on your business.</p>
+        </div>
+
+        <div style="background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r2); padding: 28px 24px;">
+          <div style="font-size: 22px; margin-bottom: 12px;">📈</div>
+          <div style="font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px;">"75% of something beats 100% of nothing."</div>
+          <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">Most founders never launch because they can't afford to. We remove every barrier. You keep 75% of a real, running, revenue-generating business — fully built, fully staffed, fully live.</p>
+        </div>
+
+        <div style="background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r2); padding: 28px 24px;">
+          <div style="font-size: 22px; margin-bottom: 12px;">🔒</div>
+          <div style="font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px;">"You stay in control."</div>
+          <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">You hold the majority stake and the decision-making power. We're your silent operating partner — handling execution while you steer the vision. No board takeovers, no loss of direction.</p>
+        </div>
+
+        <div style="background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r2); padding: 28px 24px;">
+          <div style="font-size: 22px; margin-bottom: 12px;">⚡</div>
+          <div style="font-family: var(--font-head); font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px;">"Most startups die before launch."</div>
+          <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">90% of ideas never make it off the ground — not because they're bad, but because the founder ran out of money or momentum. We eliminate both problems on day one.</p>
+        </div>
+
       </div>
     </div>
 
-    <!-- Auxiliary -->
-    <div style="margin-top: 40px; padding: 28px 32px; background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r2); display: flex; gap: 40px; flex-wrap: wrap;">
-      <div>
-        <div class="section-tag" style="margin-bottom: 8px;">Add-ons</div>
-        <p style="font-size: 14px; color: var(--muted);">DevOps & hosting retainers from <strong style="color: var(--text);">$99–$299/mo</strong> · Affiliate credits (AWS, Stripe, Google Workspace) with 10–30% commission pass-through · Custom module development at <strong style="color: var(--text);">$75–$150/hr</strong></p>
+    <!-- Deal Accepted CTA -->
+    <div id="deal-cta" style="margin-top: 56px; text-align: center; padding: 48px 32px; background: linear-gradient(160deg, rgba(200,240,74,0.06) 0%, var(--bg) 60%); border: 0.5px solid rgba(200,240,74,0.2); border-radius: var(--r2);">
+      <div id="deal-score-display" style="display:none; margin-bottom: 24px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Your viability score</div>
+        <div style="font-family: var(--font-head); font-size: 56px; font-weight: 800; letter-spacing: -2px; color: var(--accent); line-height: 1;" id="deal-score-val"></div>
+        <div style="font-size: 13px; color: var(--muted); margin-top: 4px;" id="deal-score-label"></div>
       </div>
+      <div style="font-family: var(--font-head); font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 10px;">Ready to move forward?</div>
+      <p style="font-size: 15px; color: var(--muted); max-width: 440px; margin: 0 auto 28px;">If you're in, hit the button below. We'll receive your submission instantly and reach out within 24 hours to kick things off.</p>
+      <button class="btn-primary" style="font-size: 17px; padding: 16px 48px;" onclick="acceptDeal()">Accept the Deal →</button>
+    </div>
+
+    <!-- Deal Accepted confirmation (hidden until clicked) -->
+    <div id="deal-confirmed" style="display:none; margin-top: 56px; text-align: center; padding: 48px 32px; background: rgba(74,222,128,0.06); border: 0.5px solid rgba(74,222,128,0.25); border-radius: var(--r2);">
+      <div style="font-size: 40px; margin-bottom: 16px;">✅</div>
+      <div style="font-family: var(--font-head); font-size: 24px; font-weight: 800; color: #4ade80; margin-bottom: 10px;">Deal accepted!</div>
+      <p style="font-size: 15px; color: var(--muted); max-width: 440px; margin: 0 auto;">We've received your agreement. Our team will contact you within 24 hours. Welcome to business-ASAP.</p>
     </div>
   </div>
 </section>
@@ -1260,7 +1168,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2025 SIAB — Startup in a Box. All rights reserved.</p>
+  <p>© 2025 business-ASAP. All rights reserved.</p>
   <div class="footer-links">
     <a href="#">Terms</a>
     <a href="#">Privacy</a>
@@ -1367,6 +1275,37 @@
     document.getElementById('result-msg').textContent = fastTracked
       ? `Great news! "${name}" has scored ${score}/100 and is eligible for fast-tracking to our engineering team. Book a scoping call and we'll have a proposal ready within 48 hours.`
       : `"${name}" shows real potential but needs some refinement before fast-tracking. We recommend starting with The Blueprint tier to sharpen your market positioning and technical scope.`;
+
+    // ── SAVE SUBMISSION TO LOCALSTORAGE ──
+    const submission = {
+      id: Date.now(),
+      submittedAt: new Date().toISOString(),
+      name,
+      email: document.getElementById('email').value || '—',
+      ideaDesc: document.getElementById('idea-desc').value || '—',
+      industry: industry ? industry.dataset.val : '—',
+      audience: document.getElementById('audience').value || '—',
+      marketSize: mktSize || '—',
+      budget: budgetVal || '—',
+      timeline: document.getElementById('timeline').value || '—',
+      techNeeds: Array.from(techChips).map(c => c.dataset.val),
+      services: Array.from(document.querySelectorAll('#services-chips .chip.selected')).map(c => c.dataset.val),
+      score,
+      tier,
+      fastTracked,
+    };
+    const existing = JSON.parse(localStorage.getItem('asap_submissions') || '[]');
+    existing.unshift(submission);
+    localStorage.setItem('asap_submissions', JSON.stringify(existing));
+
+    // Show score in the deal CTA section
+    const dealScoreDisplay = document.getElementById('deal-score-display');
+    document.getElementById('deal-score-val').textContent = score + ' / 100';
+    document.getElementById('deal-score-label').textContent = fastTracked
+      ? '✓ Your idea is fast-track eligible'
+      : 'Shows potential — let\'s build on it';
+    document.getElementById('deal-score-val').style.color = fastTracked ? 'var(--accent)' : 'var(--amber)';
+    dealScoreDisplay.style.display = 'block';
   }
 
   // ── CTA SUBMIT ──
@@ -1385,6 +1324,32 @@
     t.textContent = msg;
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  // ── DEAL ACCEPTANCE ──
+  function acceptDeal() {
+    const subs = JSON.parse(localStorage.getItem('asap_submissions') || '[]');
+    if (subs.length) {
+      subs[0].dealAccepted = true;
+      subs[0].dealAcceptedAt = new Date().toISOString();
+      localStorage.setItem('asap_submissions', JSON.stringify(subs));
+    } else {
+      // no wizard submission yet — save a standalone deal record
+      const record = {
+        id: Date.now(),
+        submittedAt: new Date().toISOString(),
+        dealAccepted: true,
+        dealAcceptedAt: new Date().toISOString(),
+        name: '(Direct deal — no wizard)',
+        email: '—', ideaDesc: '—', industry: '—',
+        audience: '—', marketSize: '—', budget: '—',
+        timeline: '—', techNeeds: [], services: [],
+        score: 0, tier: '—', fastTracked: false,
+      };
+      localStorage.setItem('asap_submissions', JSON.stringify([record]));
+    }
+    document.getElementById('deal-cta').style.display = 'none';
+    document.getElementById('deal-confirmed').style.display = 'block';
   }
 
   // ── TIMELINE SCROLL ANIMATION ──
