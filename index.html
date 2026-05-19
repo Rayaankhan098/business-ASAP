@@ -871,14 +871,14 @@
           <div class="form-group">
             <label>Industry / Category</label>
             <div class="chip-group" id="industry-chips">
-              <div class="chip" data-val="HealthTech">HealthTech</div>
-              <div class="chip" data-val="EdTech">EdTech</div>
-              <div class="chip" data-val="FinTech">FinTech</div>
-              <div class="chip" data-val="E-commerce">E-commerce</div>
-              <div class="chip" data-val="Logistics">Logistics</div>
-              <div class="chip" data-val="SaaS">SaaS</div>
-              <div class="chip" data-val="Social">Social</div>
-              <div class="chip" data-val="Other">Other</div>
+              <div class="chip" data-val="HealthTech" onclick="chipClick(this)">HealthTech</div>
+              <div class="chip" data-val="EdTech" onclick="chipClick(this)">EdTech</div>
+              <div class="chip" data-val="FinTech" onclick="chipClick(this)">FinTech</div>
+              <div class="chip" data-val="E-commerce" onclick="chipClick(this)">E-commerce</div>
+              <div class="chip" data-val="Logistics" onclick="chipClick(this)">Logistics</div>
+              <div class="chip" data-val="SaaS" onclick="chipClick(this)">SaaS</div>
+              <div class="chip" data-val="Social" onclick="chipClick(this)">Social</div>
+              <div class="chip" data-val="Other" onclick="chipClick(this)">Other</div>
             </div>
           </div>
           <div class="wizard-nav">
@@ -907,11 +907,11 @@
           <div class="form-group">
             <label>Investment capacity</label>
             <div class="chip-group" id="budget-chips">
-              <div class="chip" data-val="<1k">Under $1k</div>
-              <div class="chip" data-val="1-5k">$1k – $5k</div>
-              <div class="chip" data-val="5-15k">$5k – $15k</div>
-              <div class="chip" data-val="15k+">$15k+</div>
-              <div class="chip" data-val="equity">Equity deal</div>
+              <div class="chip" data-val="<1k" onclick="chipClick(this)">Under $1k</div>
+              <div class="chip" data-val="1-5k" onclick="chipClick(this)">$1k – $5k</div>
+              <div class="chip" data-val="5-15k" onclick="chipClick(this)">$5k – $15k</div>
+              <div class="chip" data-val="15k+" onclick="chipClick(this)">$15k+</div>
+              <div class="chip" data-val="equity" onclick="chipClick(this)">Equity deal</div>
             </div>
           </div>
           <div class="form-group">
@@ -937,22 +937,22 @@
           <div class="form-group">
             <label>Tech deliverables needed</label>
             <div class="chip-group" id="tech-chips">
-              <div class="chip" data-val="web">Web App / Website</div>
-              <div class="chip" data-val="mobile">Mobile App</div>
-              <div class="chip" data-val="api">Backend / API</div>
-              <div class="chip" data-val="admin">Admin Dashboard</div>
-              <div class="chip" data-val="payments">Payment Integration</div>
-              <div class="chip" data-val="ai">AI / LLM Features</div>
+              <div class="chip" data-val="web" onclick="chipClick(this)">Web App / Website</div>
+              <div class="chip" data-val="mobile" onclick="chipClick(this)">Mobile App</div>
+              <div class="chip" data-val="api" onclick="chipClick(this)">Backend / API</div>
+              <div class="chip" data-val="admin" onclick="chipClick(this)">Admin Dashboard</div>
+              <div class="chip" data-val="payments" onclick="chipClick(this)">Payment Integration</div>
+              <div class="chip" data-val="ai" onclick="chipClick(this)">AI / LLM Features</div>
             </div>
           </div>
           <div class="form-group">
             <label>Additional services</label>
             <div class="chip-group" id="services-chips">
-              <div class="chip" data-val="office">Co-working Space</div>
-              <div class="chip" data-val="marketing">Growth Marketing</div>
-              <div class="chip" data-val="design">UI/UX Design</div>
-              <div class="chip" data-val="legal">Legal / Compliance</div>
-              <div class="chip" data-val="pm">Project Manager</div>
+              <div class="chip" data-val="office" onclick="chipClick(this)">Co-working Space</div>
+              <div class="chip" data-val="marketing" onclick="chipClick(this)">Growth Marketing</div>
+              <div class="chip" data-val="design" onclick="chipClick(this)">UI/UX Design</div>
+              <div class="chip" data-val="legal" onclick="chipClick(this)">Legal / Compliance</div>
+              <div class="chip" data-val="pm" onclick="chipClick(this)">Project Manager</div>
             </div>
           </div>
           <div class="form-group">
@@ -1022,6 +1022,25 @@
     <h2>No upfront cost.<br/>We get your business<br/>up and running.</h2>
     <p class="section-intro">We don't charge you a single dollar. We take 25% of your company, roll up our sleeves, and turn your idea into a fully operational business — from zero to live.</p>
 
+    <!-- Deal Accepted CTA -->
+    <div id="deal-cta" style="margin-top: 56px; text-align: center; padding: 48px 32px; background: linear-gradient(160deg, rgba(200,240,74,0.06) 0%, var(--bg) 60%); border: 0.5px solid rgba(200,240,74,0.2); border-radius: var(--r2);">
+      <div id="deal-score-display" style="display:none; margin-bottom: 24px;">
+        <div style="font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Your viability score</div>
+        <div style="font-family: var(--font-head); font-size: 56px; font-weight: 800; letter-spacing: -2px; color: var(--accent); line-height: 1;" id="deal-score-val"></div>
+        <div style="font-size: 13px; color: var(--muted); margin-top: 4px;" id="deal-score-label"></div>
+      </div>
+      <div style="font-family: var(--font-head); font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 10px;">Ready to move forward?</div>
+      <p style="font-size: 15px; color: var(--muted); max-width: 440px; margin: 0 auto 28px;">If you're in, hit the button below. We'll receive your submission instantly and reach out within 24 hours to kick things off.</p>
+      <button class="btn-primary" style="font-size: 17px; padding: 16px 48px;" onclick="acceptDeal()">Accept the Deal →</button>
+    </div>
+
+    <!-- Deal Accepted confirmation (hidden until clicked) -->
+    <div id="deal-confirmed" style="display:none; margin-top: 56px; text-align: center; padding: 48px 32px; background: rgba(74,222,128,0.06); border: 0.5px solid rgba(74,222,128,0.25); border-radius: var(--r2);">
+      <div style="font-size: 40px; margin-bottom: 16px;">✅</div>
+      <div style="font-family: var(--font-head); font-size: 24px; font-weight: 800; color: #4ade80; margin-bottom: 10px;">Deal accepted!</div>
+      <p style="font-size: 15px; color: var(--muted); max-width: 440px; margin: 0 auto;">We've received your agreement. Our team will contact you within 24 hours. Welcome to business-ASAP.</p>
+    </div>
+
     <!-- Objection handling -->
     <div style="margin-top: 64px;">
       <h2 style="font-family: var(--font-head); font-size: 36px; font-weight: 800; text-align: center; color: var(--text); margin-bottom: 10px;">Why 25% is a great deal for you</h2>
@@ -1068,25 +1087,6 @@
 
       </div>
     </div>
-
-    <!-- Deal Accepted CTA -->
-    <div id="deal-cta" style="margin-top: 56px; text-align: center; padding: 48px 32px; background: linear-gradient(160deg, rgba(200,240,74,0.06) 0%, var(--bg) 60%); border: 0.5px solid rgba(200,240,74,0.2); border-radius: var(--r2);">
-      <div id="deal-score-display" style="display:none; margin-bottom: 24px;">
-        <div style="font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;">Your viability score</div>
-        <div style="font-family: var(--font-head); font-size: 56px; font-weight: 800; letter-spacing: -2px; color: var(--accent); line-height: 1;" id="deal-score-val"></div>
-        <div style="font-size: 13px; color: var(--muted); margin-top: 4px;" id="deal-score-label"></div>
-      </div>
-      <div style="font-family: var(--font-head); font-size: 26px; font-weight: 800; color: var(--text); margin-bottom: 10px;">Ready to move forward?</div>
-      <p style="font-size: 15px; color: var(--muted); max-width: 440px; margin: 0 auto 28px;">If you're in, hit the button below. We'll receive your submission instantly and reach out within 24 hours to kick things off.</p>
-      <button class="btn-primary" style="font-size: 17px; padding: 16px 48px;" onclick="acceptDeal()">Accept the Deal →</button>
-    </div>
-
-    <!-- Deal Accepted confirmation (hidden until clicked) -->
-    <div id="deal-confirmed" style="display:none; margin-top: 56px; text-align: center; padding: 48px 32px; background: rgba(74,222,128,0.06); border: 0.5px solid rgba(74,222,128,0.25); border-radius: var(--r2);">
-      <div style="font-size: 40px; margin-bottom: 16px;">✅</div>
-      <div style="font-family: var(--font-head); font-size: 24px; font-weight: 800; color: #4ade80; margin-bottom: 10px;">Deal accepted!</div>
-      <p style="font-size: 15px; color: var(--muted); max-width: 440px; margin: 0 auto;">We've received your agreement. Our team will contact you within 24 hours. Welcome to business-ASAP.</p>
-    </div>
   </div>
 </section>
 
@@ -1094,59 +1094,59 @@
 <section id="roadmap">
   <div class="container">
     <div class="section-tag">Execution Plan</div>
-    <h2>16 weeks from<br/>idea to live startup.</h2>
-    <p class="section-intro">A phased, milestone-driven roadmap that keeps risk low and momentum high.</p>
+    <h2>From one idea to<br/>a business-building machine.</h2>
+    <p class="section-intro">We started exactly where our clients start — with an idea, no office, and zero upfront capital. Here is how we built business-ASAP from the ground up, and how we will do the same for you.</p>
 
     <div class="timeline">
       <div class="tl-item" data-delay="0">
         <div class="tl-dot">1</div>
-        <div class="tl-phase">Weeks 1–3</div>
-        <div class="tl-title">Smoke Test & Demand Validation</div>
-        <div class="tl-desc">Confirm actual willingness to pay before committing a single developer hour to architecture.</div>
+        <div class="tl-phase">Phase 1 — Right Now</div>
+        <div class="tl-title">Launch the Platform (Website & App)</div>
+        <div class="tl-desc">The entire operation starts with a single digital product. No office needed — just a website and a mobile app that lets founders submit their idea, their requirements, and their budget in minutes.</div>
         <div class="tl-tasks">
-          <div class="tl-task">Launch a conversion-optimized landing page</div>
-          <div class="tl-task">Run $200–$500 ad campaign on LinkedIn & Meta</div>
-          <div class="tl-task">Target aspiring founders, PMs, and angel investors</div>
-          <div class="tl-task">Greenlight at 15–20 qualified consultation requests</div>
+          <div class="tl-task">Build and launch the intake website (you are looking at it)</div>
+          <div class="tl-task">Develop the companion mobile app for idea submission on the go</div>
+          <div class="tl-task">Allow clients to tell us their idea — or let us suggest one for them</div>
+          <div class="tl-task">Capture requirements: website, app, office space, team size, and investment range</div>
         </div>
       </div>
 
       <div class="tl-item" data-delay="100">
         <div class="tl-dot">2</div>
-        <div class="tl-phase">Weeks 4–7</div>
-        <div class="tl-title">Strategic Infrastructure Setup</div>
-        <div class="tl-desc">Lock in partnerships and operational back-ends before touching a line of code.</div>
+        <div class="tl-phase">Phase 2 — Early Growth</div>
+        <div class="tl-title">Build the Network & Take First Clients</div>
+        <div class="tl-desc">The platform only works if we have the right people behind it. We build our supplier and talent network before we make promises we can't keep.</div>
         <div class="tl-tasks">
-          <div class="tl-task">Negotiate SLAs with co-working hubs (zero asset risk)</div>
-          <div class="tl-task">Vet and contract 15 freelancers across key disciplines</div>
-          <div class="tl-task">Draft liability frameworks and ToS documents</div>
-          <div class="tl-task">Register as a separate business division</div>
+          <div class="tl-task">Form partnerships with freelance developers, designers, and legal advisors</div>
+          <div class="tl-task">Connect with co-working and office space providers for client setups</div>
+          <div class="tl-task">Onboard first 3–5 paying clients and deliver end-to-end — web, app, and operations</div>
+          <div class="tl-task">Collect testimonials and refine the intake process based on real feedback</div>
         </div>
       </div>
 
       <div class="tl-item" data-delay="200">
         <div class="tl-dot">3</div>
-        <div class="tl-phase">Weeks 8–12</div>
-        <div class="tl-title">Internal Tech Stack Standardization</div>
-        <div class="tl-desc">Build the delivery engine — the boilerplates that make 3-month builds take 3 weeks.</div>
+        <div class="tl-phase">Phase 3 — Reputation & Scale</div>
+        <div class="tl-title">Become the Go-To Name for Non-Technical Founders</div>
+        <div class="tl-desc">At this stage, word of mouth and a track record of successful launches is our biggest sales tool. Every business we build makes the next client easier to close.</div>
         <div class="tl-tasks">
-          <div class="tl-task">Build production-ready boilerplate (Next.js + Supabase)</div>
-          <div class="tl-task">Automate spin-up scripts for AWS, Vercel, DigitalOcean</div>
-          <div class="tl-task">Build founder dashboard: milestones, marketplace, hosting</div>
-          <div class="tl-task">Integrate AI-powered idea intake wizard</div>
+          <div class="tl-task">Showcase live client businesses as proof of concept on the platform</div>
+          <div class="tl-task">Run targeted social campaigns aimed at aspiring founders with ideas but no tech background</div>
+          <div class="tl-task">Establish a referral system — clients who refer new founders earn benefits</div>
+          <div class="tl-task">Grow a skilled in-house team across tech, design, business development, and operations</div>
         </div>
       </div>
 
       <div class="tl-item" data-delay="300">
         <div class="tl-dot">4</div>
-        <div class="tl-phase">Weeks 13–16</div>
-        <div class="tl-title">Cohort Alpha Launch</div>
-        <div class="tl-desc">Onboard the first 3 pilot clients simultaneously and document every friction point.</div>
+        <div class="tl-phase">Phase 4 — Physical Presence</div>
+        <div class="tl-title">Open the Business-ASAP Office</div>
+        <div class="tl-desc">Once revenue is stable and the team is proven, we open a physical headquarters — a space where founders can walk in with an idea and walk out with a business plan, a signed agreement, and a launch date.</div>
         <div class="tl-tasks">
-          <div class="tl-task">Select top 3 high-quality leads from validation phase</div>
-          <div class="tl-task">Run as an engineering cohort in parallel</div>
-          <div class="tl-task">Track and log every bottleneck for pipeline optimization</div>
-          <div class="tl-task">Collect data loops for continuous improvement</div>
+          <div class="tl-task">Lease a professional office space that doubles as a client consultation hub</div>
+          <div class="tl-task">Host in-person founder workshops and idea validation sessions</div>
+          <div class="tl-task">Staff the office with full-time business analysts, developers, and growth strategists</div>
+          <div class="tl-task">Expand to multiple cities — one office per major market</div>
         </div>
       </div>
     </div>
@@ -1182,15 +1182,12 @@
 
 <script>
   // ── CHIP TOGGLES ──
-  document.querySelectorAll('.chip-group').forEach(group => {
-    group.querySelectorAll('.chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        const multi = ['industry-chips','tech-chips','services-chips'].includes(group.id);
-        if (!multi) group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-        chip.classList.toggle('selected');
-      });
-    });
-  });
+  function chipClick(chip) {
+    const group = chip.parentElement;
+    const multi = ['industry-chips','tech-chips','services-chips'].includes(group.id);
+    if (!multi) group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.toggle('selected');
+  }
 
   // ── STEP NAVIGATION ──
   let currentStep = 1;
@@ -1206,8 +1203,10 @@
     document.querySelector('.form-panel.active').classList.remove('active');
     document.getElementById('panel-' + n).classList.add('active');
 
-    document.querySelector('.wstep.active').classList.remove('active');
-    document.querySelector('[data-step="' + n + '"]').classList.add('active');
+    const activeStep = document.querySelector('.wstep.active');
+    if (activeStep) activeStep.classList.remove('active');
+    const targetStep = document.querySelector('[data-step="' + n + '"]');
+    if (targetStep) targetStep.classList.add('active');
 
     currentStep = n;
   }
