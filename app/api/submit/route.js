@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { redis, KV_AVAILABLE } from '@/lib/redis';
 
 export const runtime = 'nodejs';
 
@@ -119,12 +120,27 @@ export async function POST(request) {
   try {
     const data = await request.json();
 
+    // ── 1. Save to Upstash Redis (KV) ──────────────────────────────────
+    let kvSaved = false;
+    if (KV_AVAILABLE) {
+      try {
+        const id = data.id || Date.now();
+        const submission = { ...data, id };
+        await redis.set(`submission:${id}`, submission);
+        await redis.lpush('submission_ids', String(id));
+        kvSaved = true;
+      } catch (kvErr) {
+        console.error('[submit] KV save error:', kvErr.message);
+      }
+    }
+
+    // ── 2. Send email notification ──────────────────────────────────────
     const user = process.env.GMAIL_USER;
     const pass = process.env.GMAIL_APP_PASSWORD;
 
-    if (!user || !pass) {
+    if (!user || !pass || pass === 'your-app-password-here') {
       console.warn('[submit] Email env vars not set — skipping email send.');
-      return Response.json({ ok: true, email: false });
+      return Response.json({ ok: true, email: false, kvSaved });
     }
 
     const transporter = nodemailer.createTransport({
@@ -142,9 +158,9 @@ export async function POST(request) {
       html: buildEmailHtml(data),
     });
 
-    return Response.json({ ok: true, email: true });
+    return Response.json({ ok: true, email: true, kvSaved });
   } catch (err) {
-    console.error('[submit] Email error:', err.message);
+    console.error('[submit] Error:', err.message);
     return Response.json({ ok: false, error: err.message }, { status: 500 });
   }
 }

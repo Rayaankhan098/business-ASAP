@@ -292,26 +292,48 @@ function DetailRow({ sub }) {
 export default function Dashboard() {
   const [subs, setSubs] = useState([]);
   const [expanded, setExpanded] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [kvAvailable, setKvAvailable] = useState(true);
 
-  const load = useCallback(() => {
+  const load = useCallback(async () => {
+    setLoading(true);
     try {
-      setSubs(JSON.parse(localStorage.getItem('asap_submissions') || '[]'));
+      const res = await fetch('/api/submissions');
+      const data = await res.json();
+      if (data.kvAvailable === false) {
+        // KV not set up yet — fall back to localStorage
+        setKvAvailable(false);
+        try {
+          setSubs(JSON.parse(localStorage.getItem('asap_submissions') || '[]'));
+        } catch (_) { setSubs([]); }
+      } else {
+        setKvAvailable(true);
+        setSubs(data.submissions || []);
+      }
     } catch (_) {
-      setSubs([]);
+      // Network error — fall back to localStorage
+      setKvAvailable(false);
+      try {
+        setSubs(JSON.parse(localStorage.getItem('asap_submissions') || '[]'));
+      } catch (__) { setSubs([]); }
+    } finally {
+      setLoading(false);
     }
   }, []);
 
-  useEffect(() => {
-    load();
-  }, [load]);
+  useEffect(() => { load(); }, [load]);
 
   function toggleDetail(i) {
     setExpanded((prev) => ({ ...prev, [i]: !prev[i] }));
   }
 
-  function clearAll() {
+  async function clearAll() {
     if (!confirm('Delete all submissions? This cannot be undone.')) return;
-    localStorage.removeItem('asap_submissions');
+    if (kvAvailable) {
+      await fetch('/api/submissions', { method: 'DELETE' });
+    } else {
+      localStorage.removeItem('asap_submissions');
+    }
     setSubs([]);
     setExpanded({});
   }
@@ -361,6 +383,14 @@ export default function Dashboard() {
         {/* Email status */}
         <EmailStatusBanner />
 
+        {/* KV status banner */}
+        {!kvAvailable && (
+          <div style={{ marginBottom: '24px', padding: '14px 18px', background: 'rgba(251,191,36,0.08)', border: '0.5px solid rgba(251,191,36,0.25)', borderRadius: '14px', fontSize: '13px' }}>
+            <span style={{ color: '#fbbf24', fontWeight: 600 }}>⚠ Running on localStorage</span>
+            <span style={{ color: 'var(--muted)', marginLeft: '8px' }}>Upstash Redis not connected — submissions only visible in this browser. Set <code style={{ color: 'var(--accent2)' }}>UPSTASH_REDIS_REST_URL</code> & <code style={{ color: 'var(--accent2)' }}>UPSTASH_REDIS_REST_TOKEN</code> in .env.local to enable global persistence.</span>
+          </div>
+        )}
+
         {/* Stat cards */}
         <div className="stats-row">
           {statCards.map((s) => (
@@ -396,7 +426,15 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {subs.length === 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={10}>
+                    <div className="empty-state">
+                      <strong style={{ color: 'var(--muted)' }}>Loading submissions…</strong>
+                    </div>
+                  </td>
+                </tr>
+              ) : subs.length === 0 ? (
                 <tr>
                   <td colSpan={10}>
                     <div className="empty-state">

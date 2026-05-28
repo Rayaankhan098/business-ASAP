@@ -37,14 +37,24 @@ const OBJECTIONS = [
 export default function Pricing({ score, fastTracked }) {
   const [dealAccepted, setDealAccepted] = useState(false);
 
-  function acceptDeal() {
+  async function acceptDeal() {
+    setDealAccepted(true); // optimistic UI — show confirmation immediately
+
     try {
+      // Update localStorage
       const subs = JSON.parse(localStorage.getItem('asap_submissions') || '[]');
       if (subs.length) {
         subs[0].dealAccepted = true;
         subs[0].dealAcceptedAt = new Date().toISOString();
         localStorage.setItem('asap_submissions', JSON.stringify(subs));
+        // Sync to KV
+        fetch('/api/deal-accept', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: subs[0].id }),
+        }).catch(() => {});
       } else {
+        // No wizard submission — save a direct deal record
         const record = {
           id: Date.now(),
           submittedAt: new Date().toISOString(),
@@ -57,9 +67,13 @@ export default function Pricing({ score, fastTracked }) {
           fastTracked: false,
         };
         localStorage.setItem('asap_submissions', JSON.stringify([record]));
+        fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        }).catch(() => {});
       }
     } catch (_) {}
-    setDealAccepted(true);
   }
 
   return (
