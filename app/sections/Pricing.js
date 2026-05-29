@@ -36,25 +36,26 @@ const OBJECTIONS = [
 
 export default function Pricing({ score, fastTracked }) {
   const [dealAccepted, setDealAccepted] = useState(false);
+  const [accepting, setAccepting] = useState(false);
+  const [acceptError, setAcceptError] = useState('');
 
   async function acceptDeal() {
-    setDealAccepted(true); // optimistic UI — show confirmation immediately
+    if (accepting || dealAccepted) return;
+    setAccepting(true);
+    setAcceptError('');
 
     try {
-      // Update localStorage
       const subs = JSON.parse(localStorage.getItem('asap_submissions') || '[]');
       if (subs.length) {
         subs[0].dealAccepted = true;
         subs[0].dealAcceptedAt = new Date().toISOString();
         localStorage.setItem('asap_submissions', JSON.stringify(subs));
-        // Sync to KV
         fetch('/api/deal-accept', {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ id: subs[0].id }),
         }).catch(() => {});
       } else {
-        // No wizard submission — save a direct deal record
         const record = {
           id: Date.now(),
           submittedAt: new Date().toISOString(),
@@ -73,7 +74,12 @@ export default function Pricing({ score, fastTracked }) {
           body: JSON.stringify(record),
         }).catch(() => {});
       }
-    } catch (_) {}
+      setDealAccepted(true);
+    } catch (err) {
+      setAcceptError('Something went wrong. Please try again.');
+    } finally {
+      setAccepting(false);
+    }
   }
 
   return (
@@ -168,11 +174,22 @@ export default function Pricing({ score, fastTracked }) {
             </p>
             <button
               className="btn-primary"
-              style={{ fontSize: '17px', padding: '16px 48px' }}
+              style={{
+                fontSize: '17px',
+                padding: '16px 48px',
+                opacity: accepting ? 0.7 : 1,
+                cursor: accepting ? 'not-allowed' : 'pointer',
+              }}
               onClick={acceptDeal}
+              disabled={accepting}
             >
-              Accept the Deal →
+              {accepting ? '⏳ Submitting…' : 'Accept the Deal →'}
             </button>
+            {acceptError && (
+              <div style={{ marginTop: '14px', fontSize: '13px', color: 'rgba(255,106,61,0.9)' }}>
+                ⚠ {acceptError}
+              </div>
+            )}
           </div>
         ) : (
           <div

@@ -10,9 +10,11 @@ export default function CTA() {
     setTimeout(() => setToast({ show: false, msg: '' }), 3200);
   }
 
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   function submitCTA() {
-    if (!email || !email.includes('@')) {
-      showToast('Please enter a valid email!');
+    if (!email || !EMAIL_RE.test(email)) {
+      showToast('Please enter a valid email address.');
       return;
     }
     showToast('🎉 Booking link sent to ' + email);

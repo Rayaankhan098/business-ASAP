@@ -70,6 +70,8 @@ export default function Wizard({ onAnalysisComplete }) {
   const [email, setEmail] = useState('');
   const [result, setResult] = useState(null);
   const [scoreFill, setScoreFill] = useState(0);
+  const [errors, setErrors] = useState({});
+  const [generating, setGenerating] = useState(false);
   const cardRef = useRef(null);
 
   function toggleMulti(arr, setArr, val) {
@@ -79,6 +81,16 @@ export default function Wizard({ onAnalysisComplete }) {
   }
 
   function goStep(n) {
+    // Validate current step before advancing
+    if (n > step) {
+      const errs = {};
+      if (step === 1) {
+        if (!startupName.trim()) errs.startupName = 'Please enter a startup name.';
+        if (!ideaDesc.trim()) errs.ideaDesc = 'Please describe your idea.';
+      }
+      if (Object.keys(errs).length) { setErrors(errs); return; }
+    }
+    setErrors({});
     setStep(n);
     setTimeout(() => {
       cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -86,6 +98,7 @@ export default function Wizard({ onAnalysisComplete }) {
   }
 
   function runAnalysis() {
+    setGenerating(true);
     let score = 58;
     if (budget === '5-15k') score += 12;
     else if (budget === '15k+') score += 18;
@@ -136,6 +149,7 @@ export default function Wizard({ onAnalysisComplete }) {
 
     setResult(newResult);
     setScoreFill(0);
+    setGenerating(false);
     setStep(4);
     setTimeout(() => setScoreFill(score), 250);
 
@@ -176,6 +190,8 @@ export default function Wizard({ onAnalysisComplete }) {
     setStep(1);
     setResult(null);
     setScoreFill(0);
+    setErrors({});
+    setGenerating(false);
     setStartupName('');
     setIdeaDesc('');
     setIndustry([]);
@@ -236,17 +252,21 @@ export default function Wizard({ onAnalysisComplete }) {
                   <input
                     type="text"
                     value={startupName}
-                    onChange={(e) => setStartupName(e.target.value)}
+                    onChange={(e) => { setStartupName(e.target.value); setErrors((p) => ({ ...p, startupName: '' })); }}
                     placeholder="e.g. QuickMed, DeliverPK, EduBot…"
+                    style={errors.startupName ? { borderColor: 'rgba(255,106,61,0.6)' } : {}}
                   />
+                  {errors.startupName && <div className="field-error">{errors.startupName}</div>}
                 </div>
                 <div className="form-group">
                   <label>Describe your idea in 2–3 sentences</label>
                   <textarea
                     value={ideaDesc}
-                    onChange={(e) => setIdeaDesc(e.target.value)}
+                    onChange={(e) => { setIdeaDesc(e.target.value); setErrors((p) => ({ ...p, ideaDesc: '' })); }}
                     placeholder="What problem does it solve? Who are your customers? What makes it different?"
+                    style={errors.ideaDesc ? { borderColor: 'rgba(255,106,61,0.6)' } : {}}
                   />
+                  {errors.ideaDesc && <div className="field-error">{errors.ideaDesc}</div>}
                 </div>
                 <div className="form-group">
                   <label>Industry / Category</label>
@@ -389,8 +409,13 @@ export default function Wizard({ onAnalysisComplete }) {
                   <button className="btn-ghost" onClick={() => goStep(2)}>
                     ← Back
                   </button>
-                  <button className="btn-primary" onClick={runAnalysis}>
-                    Generate Report →
+                  <button
+                    className="btn-primary"
+                    onClick={runAnalysis}
+                    disabled={generating}
+                    style={generating ? { opacity: 0.65, cursor: 'not-allowed' } : {}}
+                  >
+                    {generating ? '⏳ Generating report…' : 'Generate Report →'}
                   </button>
                 </div>
               </div>

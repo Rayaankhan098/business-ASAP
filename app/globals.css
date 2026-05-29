@@ -679,10 +679,90 @@ footer p { font-size: 13px; color: var(--muted); }
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
 
+/* ── FIELD ERROR ── */
+.field-error {
+  font-size: 12px;
+  color: rgba(255, 106, 61, 0.9);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* ── BTN DISABLED ── */
+.btn-primary:disabled { pointer-events: none; }
+
+/* ── MOBILE NAV ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 200;
+}
+.nav-hamburger span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.nav-hamburger.is-open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.is-open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Mobile overlay */
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 149;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Mobile drawer */
+.mobile-nav-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  background: var(--bg2);
+  border-left: 0.5px solid var(--border2);
+  z-index: 150;
+  padding: 80px 28px 40px;
+  overflow-y: auto;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.mobile-nav-links li a {
+  display: block;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 14px 0;
+  border-bottom: 0.5px solid var(--border);
+  transition: color 0.2s;
+}
+.mobile-nav-links li a:hover { color: var(--text); }
+.mobile-nav-links li:last-child a { border-bottom: none; }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
   .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
   section { padding: 72px 20px; }
   .wizard-wrap { grid-template-columns: 1fr; }
   .hero-stats { gap: 24px; }

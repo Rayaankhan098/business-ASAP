@@ -1,6 +1,8 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 
+const PAGE_SIZE = 20;
+
 function EmailStatusBanner() {
   const [status, setStatus] = useState(null); // null | 'loading' | 'ok' | 'error'
   const [msg, setMsg] = useState('');
@@ -294,9 +296,12 @@ export default function Dashboard() {
   const [expanded, setExpanded] = useState({});
   const [loading, setLoading] = useState(true);
   const [kvAvailable, setKvAvailable] = useState(true);
+  const [page, setPage] = useState(1);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
+    setPage(1);
     try {
       const res = await fetch('/api/submissions');
       const data = await res.json();
@@ -325,6 +330,14 @@ export default function Dashboard() {
 
   function toggleDetail(i) {
     setExpanded((prev) => ({ ...prev, [i]: !prev[i] }));
+  }
+
+  async function logout() {
+    setLoggingOut(true);
+    try {
+      await fetch('/api/admin-auth', { method: 'DELETE' });
+    } catch (_) {}
+    window.location.href = '/login';
   }
 
   async function clearAll() {
@@ -376,6 +389,14 @@ export default function Dashboard() {
           <a href="/" className="clear-btn" style={{ textDecoration: 'none' }}>
             ← Site
           </a>
+          <button
+            className="clear-btn danger"
+            onClick={logout}
+            disabled={loggingOut}
+            style={{ opacity: loggingOut ? 0.6 : 1 }}
+          >
+            {loggingOut ? 'Logging out…' : '→ Log out'}
+          </button>
         </div>
       </header>
 
@@ -444,7 +465,7 @@ export default function Dashboard() {
                   </td>
                 </tr>
               ) : (
-                subs.map((s, i) => (
+                subs.slice(0, page * PAGE_SIZE).map((s, i) => (
                   <>
                     <tr key={`row-${i}`}>
                       <td>
@@ -507,6 +528,24 @@ export default function Dashboard() {
             </tbody>
           </table>
         </div>
+
+        {/* Load more */}
+        {!loading && subs.length > page * PAGE_SIZE && (
+          <div style={{ textAlign: 'center', marginTop: '24px' }}>
+            <button
+              className="clear-btn"
+              onClick={() => setPage((p) => p + 1)}
+              style={{ padding: '10px 32px', fontSize: '13px' }}
+            >
+              Load more ({subs.length - page * PAGE_SIZE} remaining)
+            </button>
+          </div>
+        )}
+        {!loading && subs.length > PAGE_SIZE && subs.length <= page * PAGE_SIZE && (
+          <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '12px', color: 'var(--muted)' }}>
+            Showing all {subs.length} submission{subs.length !== 1 ? 's' : ''}
+          </div>
+        )}
       </div>
     </div>
   );
