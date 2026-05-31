@@ -550,7 +550,8 @@ export default function Wizard({ onAnalysisComplete }) {
                     </span>
                   </div>
                   <div className="score-bar">
-                    <div className="score-bar-fill" style={{ width: `${scoreFill}%` }} />
+                    {/* overlay shrinks from right, revealing gradient = score colour */}
+                    <div className="score-bar-fill" style={{ width: `${100 - scoreFill}%` }} />
                   </div>
                   <div className="score-label">
                     <span>Not viable</span>

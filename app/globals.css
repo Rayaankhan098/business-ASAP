@@ -430,18 +430,29 @@ select option { background: #1a1a25; }
 
 .score-bar-wrap { margin-top: 8px; }
 .score-bar {
-  height: 6px;
-  background: var(--bg3);
-  border-radius: 3px;
+  height: 8px;
+  /* Traffic-light gradient spans the FULL bar always */
+  background: linear-gradient(
+    90deg,
+    #ff4b4b  0%,   /* red   — not viable   */
+    #ef9f27 42%,   /* amber — needs work    */
+    #c8f04a 72%,   /* lime  — approaching   */
+    #4ade80 100%   /* green — fast-tracked  */
+  );
+  border-radius: 4px;
   overflow: hidden;
   margin-top: 4px;
+  position: relative;
 }
+/* Dark "unfill" overlay — starts at 100% width and shrinks rightward,
+   revealing the gradient beneath as scoreFill increases */
 .score-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent2), var(--accent));
-  border-radius: 3px;
-  width: 0;
-  transition: width 1s ease;
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  background: var(--bg3);
+  border-radius: 0 4px 4px 0;
+  width: 100%;               /* overridden by inline style */
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .score-label {
   display: flex;
