@@ -44,6 +44,66 @@ const WIZARD_STEPS = [
   { num: 4, title: 'Your report', desc: 'AI viability analysis' },
 ];
 
+// ── Tech stack recommendations (keyed by tech-need chip value) ──
+const STACK_MAP = {
+  web:      { layer: 'Frontend',  tech: 'Next.js + React',              reason: 'Fast, SEO-ready, scales from MVP to enterprise' },
+  mobile:   { layer: 'Mobile',    tech: 'React Native (Expo)',           reason: 'One codebase → iOS & Android, fastest path to market' },
+  api:      { layer: 'Backend',   tech: 'Node.js + Express',             reason: 'Battle-tested, huge ecosystem, easy to deploy anywhere' },
+  admin:    { layer: 'Database',  tech: 'PostgreSQL + Prisma',           reason: 'Reliable relational DB — ideal for dashboards & reporting' },
+  payments: { layer: 'Payments',  tech: 'Stripe + JazzCash / EasyPaisa', reason: 'International + local Pakistani payment coverage in one integration' },
+  ai:       { layer: 'AI / LLM',  tech: 'Claude API + OpenAI GPT-4o',   reason: 'State-of-the-art reasoning, tool use, and sub-second latency' },
+};
+const HOSTING_STACK = {
+  layer: 'Hosting', tech: 'Vercel + Railway', reason: 'Zero-config deploys, generous free tiers, auto-scales',
+};
+const DEFAULT_STACK = [
+  { layer: 'Frontend', tech: 'Next.js + React',    reason: 'Best starting point for any modern web product' },
+  { layer: 'Backend',  tech: 'Node.js + Supabase', reason: 'Auth, storage & real-time DB in one — no DevOps overhead' },
+];
+
+// ── Competitor landscape by industry ──
+const COMPETITOR_MAP = {
+  HealthTech:   [
+    { name: 'Marham',       note: 'Doctor-booking & teleconsult platform' },
+    { name: 'Sehat Kahani', note: 'Telemedicine for women & children' },
+    { name: 'DoctHERS',     note: 'Female healthcare network' },
+  ],
+  EdTech:       [
+    { name: 'Sabaq',   note: 'Video lessons K–12, curriculum-aligned' },
+    { name: 'Maqsad',  note: 'Competitive exam prep (MDCAT, CSS)' },
+    { name: 'Edvon',   note: 'Skills & coding bootcamps' },
+  ],
+  FinTech:      [
+    { name: 'NayaPay', note: 'Digital wallet & card issuer' },
+    { name: 'Sadapay', note: 'Neobank targeting freelancers' },
+    { name: 'Finja',   note: 'SME lending, payroll & BNPL' },
+  ],
+  'E-commerce': [
+    { name: 'Daraz',        note: 'Marketplace giant (Alibaba-backed)' },
+    { name: 'iShopping.pk', note: 'Electronics & lifestyle retail' },
+    { name: 'Yayvo',        note: 'Multi-category online store' },
+  ],
+  Logistics:    [
+    { name: 'Bykea',  note: 'Bike delivery & ride-hailing' },
+    { name: 'PostEx', note: 'COD logistics for e-commerce sellers' },
+    { name: 'TCS',    note: 'Legacy courier pivoting digital-first' },
+  ],
+  SaaS:         [
+    { name: 'Contour', note: 'HR SaaS built for Pakistan market' },
+    { name: 'ZenHR',   note: 'HRMS for MENA & South Asia' },
+    { name: 'Vyapar',  note: 'SME accounting & invoicing (India/PK)' },
+  ],
+  Social:       [
+    { name: 'TikTok',       note: 'Short-form video — dominant in PK' },
+    { name: 'Instagram',    note: 'Visual social (global reach)' },
+    { name: 'Snack Video',  note: 'Fast-growing local short-video rival' },
+  ],
+  Other:        [
+    { name: 'Local incumbents', note: 'Search your niche on Google.pk to find them' },
+    { name: 'Regional players', note: 'South Asian markets often have untapped gaps' },
+  ],
+};
+
 function Chip({ label, selected, onClick }) {
   return (
     <div className={`chip${selected ? ' selected' : ''}`} onClick={onClick}>
@@ -99,38 +159,84 @@ export default function Wizard({ onAnalysisComplete }) {
 
   function runAnalysis() {
     setGenerating(true);
+
+    // ── Base score ────────────────────────────────────────────────────────
     let score = 58;
+    const warnings = [];
+
+    // Budget contribution
     if (budget === '5-15k') score += 12;
     else if (budget === '15k+') score += 18;
     else if (budget === 'equity') score += 8;
     else if (budget === '1-5k') score += 4;
 
+    // Market size contribution
     if (mktSize === 'national') score += 8;
     else if (mktSize === 'regional') score += 12;
     else if (mktSize === 'global') score += 16;
 
+    // Scope signals
     if (techNeeds.length >= 2) score += 5;
     if (industry.length > 0) score += 3;
-    score = Math.min(score, 97);
 
+    // ── Budget vs. complexity mismatch detection ──────────────────────────
+    const FEATURE_LABELS = { mobile: 'Mobile App', ai: 'AI/LLM Features', payments: 'Payment Integration' };
+    const expensiveFeatures = techNeeds.filter((t) => ['mobile', 'ai', 'payments'].includes(t));
+
+    if (budget === '<1k') {
+      if (expensiveFeatures.length > 0) {
+        const names = expensiveFeatures.map((f) => FEATURE_LABELS[f]).join(' + ');
+        warnings.push(
+          `Your budget ($<1k) does not match your technical requirements. ${names} typically require $5k–$15k minimum. Start with a web-only MVP and add these in Phase 2.`
+        );
+        score -= 10;
+      } else if (techNeeds.length >= 3) {
+        warnings.push(
+          `Your budget ($<1k) is tight for ${techNeeds.length} deliverables. Focus on your top 2 features for the MVP — that's how you maximise runway.`
+        );
+        score -= 6;
+      }
+      if (services.length >= 2) {
+        warnings.push(
+          `Multiple add-on services (marketing, design, legal) are hard to fund at $<1k. We can absorb these costs, but expect a phased launch scope.`
+        );
+      }
+    } else if (budget === '1-5k') {
+      if (techNeeds.includes('mobile') && techNeeds.includes('ai')) {
+        warnings.push(
+          `Mobile App + AI/LLM together typically cost $8k–$20k+. At $1k–$5k, we recommend a web app with AI first — mobile can ship in Phase 2.`
+        );
+        score -= 5;
+      } else if (techNeeds.length >= 4) {
+        warnings.push(
+          `${techNeeds.length} tech deliverables at $1k–$5k leaves thin margins. We'll scope the MVP to your top 2–3 features and phase the rest post-launch.`
+        );
+        score -= 3;
+      }
+    }
+
+    score = Math.min(Math.max(score, 28), 97);
     const fastTracked = score >= 75;
 
+    // ── Tier ──────────────────────────────────────────────────────────────
     let tier = 'Tier 1 — The Blueprint';
     if (budget === 'equity') tier = 'Tier 4 — Co-Founder Circle';
     else if (budget === '15k+') tier = 'Tier 3 — Scale Engine';
     else if (budget === '5-15k') tier = 'Tier 2 — The Launchpad';
 
-    const mktLabels = {
-      local: 'Moderate',
-      national: 'Strong',
-      regional: 'Very Strong',
-      global: 'Exceptional',
-      '': 'Moderate',
-    };
-    const techBadge =
-      techNeeds.length <= 2 ? 'green' : techNeeds.length <= 4 ? 'amber' : 'purple';
-    const techLabel =
-      techNeeds.length <= 2 ? 'Low complexity' : techNeeds.length <= 4 ? 'Medium' : 'High';
+    // ── Tech stack ────────────────────────────────────────────────────────
+    const stack = techNeeds.length
+      ? [...techNeeds.map((t) => STACK_MAP[t]).filter(Boolean), HOSTING_STACK]
+      : [...DEFAULT_STACK, HOSTING_STACK];
+
+    // ── Competitors ───────────────────────────────────────────────────────
+    const primaryIndustry = industry[0] || 'Other';
+    const competitors = COMPETITOR_MAP[primaryIndustry] || COMPETITOR_MAP['Other'];
+
+    // ── Market / tech labels ──────────────────────────────────────────────
+    const mktLabels = { local: 'Moderate', national: 'Strong', regional: 'Very Strong', global: 'Exceptional', '': 'Moderate' };
+    const techBadge = techNeeds.length <= 2 ? 'green' : techNeeds.length <= 4 ? 'amber' : 'purple';
+    const techLabel = techNeeds.length <= 2 ? 'Low complexity' : techNeeds.length <= 4 ? 'Medium' : 'High';
 
     const name = startupName || 'Your Startup';
     const newResult = {
@@ -142,9 +248,15 @@ export default function Wizard({ onAnalysisComplete }) {
       marketBadge: score >= 75 ? 'green' : 'amber',
       tech: techLabel,
       techBadge,
+      warnings,
+      stack,
+      competitors,
+      primaryIndustry,
       message: fastTracked
-        ? `Great news! "${name}" has scored ${score}/100 and is eligible for fast-tracking to our engineering team. Book a scoping call and we'll have a proposal ready within 48 hours.`
-        : `"${name}" shows real potential but needs some refinement before fast-tracking. We recommend starting with The Blueprint tier to sharpen your market positioning and technical scope.`,
+        ? `"${name}" scored ${score}/100 and is eligible for fast-tracking. Our engineering team can have a scoped proposal ready within 48 hours of your discovery call.`
+        : warnings.length > 0
+        ? `"${name}" shows real potential, but has budget/scope conflicts flagged above. Address these before your call — or let us help you re-scope at zero cost.`
+        : `"${name}" shows strong potential. We recommend starting with ${tier} to sharpen your market positioning and technical scope before scaling up.`,
     };
 
     setResult(newResult);
@@ -175,7 +287,6 @@ export default function Wizard({ onAnalysisComplete }) {
       existing.unshift(submission);
       localStorage.setItem('asap_submissions', JSON.stringify(existing));
 
-      // Fire-and-forget — send email notification to admin
       fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -425,35 +536,21 @@ export default function Wizard({ onAnalysisComplete }) {
             {step === 4 && result && (
               <div>
                 <h3>Your Viability Report</h3>
-                <p>AI analysis complete. Here&apos;s your startup assessment.</p>
+                <p>
+                  Report generated for{' '}
+                  <strong style={{ color: 'var(--text)' }}>{result.name}</strong>.
+                </p>
 
-                <div style={{ marginBottom: '24px' }}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      marginBottom: '8px',
-                    }}
-                  >
-                    <span style={{ fontSize: '14px', color: 'var(--muted)' }}>
-                      Overall viability score
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-head)',
-                        fontWeight: 800,
-                        fontSize: '18px',
-                        color: 'var(--accent)',
-                      }}
-                    >
+                {/* Score bar */}
+                <div style={{ marginBottom: '20px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <span style={{ fontSize: '14px', color: 'var(--muted)' }}>Overall viability score</span>
+                    <span style={{ fontFamily: 'var(--font-head)', fontWeight: 800, fontSize: '18px', color: 'var(--accent)' }}>
                       {result.score} / 100
                     </span>
                   </div>
                   <div className="score-bar">
-                    <div
-                      className="score-bar-fill"
-                      style={{ width: `${scoreFill}%` }}
-                    />
+                    <div className="score-bar-fill" style={{ width: `${scoreFill}%` }} />
                   </div>
                   <div className="score-label">
                     <span>Not viable</span>
@@ -461,25 +558,34 @@ export default function Wizard({ onAnalysisComplete }) {
                   </div>
                 </div>
 
+                {/* Budget/scope warnings */}
+                {result.warnings.length > 0 && (
+                  <div style={{ marginBottom: '16px', padding: '14px 16px', background: 'rgba(239,159,39,0.08)', border: '0.5px solid rgba(239,159,39,0.35)', borderRadius: 'var(--r)' }}>
+                    <div style={{ fontFamily: 'var(--font-head)', fontSize: '13px', fontWeight: 700, color: '#ef9f27', marginBottom: '8px' }}>
+                      ⚠ Budget &amp; Scope Alerts
+                    </div>
+                    {result.warnings.map((w, i) => (
+                      <div key={i} style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.65, paddingTop: i > 0 ? '6px' : 0 }}>
+                        • {w}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Assessment breakdown */}
                 <div className="result-box">
                   <h4>Assessment breakdown</h4>
                   <div className="result-row">
                     <span>Market Opportunity</span>
-                    <span>
-                      <Badge type={result.marketBadge}>{result.market}</Badge>
-                    </span>
+                    <span><Badge type={result.marketBadge}>{result.market}</Badge></span>
                   </div>
                   <div className="result-row">
                     <span>Technical Complexity</span>
-                    <span>
-                      <Badge type={result.techBadge}>{result.tech}</Badge>
-                    </span>
+                    <span><Badge type={result.techBadge}>{result.tech}</Badge></span>
                   </div>
                   <div className="result-row">
                     <span>Competitive Landscape</span>
-                    <span>
-                      <Badge type="amber">Moderate market</Badge>
-                    </span>
+                    <span><Badge type="amber">{result.primaryIndustry}</Badge></span>
                   </div>
                   <div className="result-row">
                     <span>Recommended Tier</span>
@@ -488,27 +594,43 @@ export default function Wizard({ onAnalysisComplete }) {
                   <div className="result-row">
                     <span>Status</span>
                     <span>
-                      {result.fastTracked ? (
-                        <Badge type="green">✓ Fast-tracked</Badge>
-                      ) : (
-                        <Badge type="amber">Needs refinement</Badge>
-                      )}
+                      {result.fastTracked
+                        ? <Badge type="green">✓ Fast-tracked</Badge>
+                        : <Badge type="amber">Needs refinement</Badge>}
                     </span>
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    marginTop: '20px',
-                    padding: '16px',
-                    background: 'rgba(200,240,74,0.08)',
-                    border: '0.5px solid rgba(200,240,74,0.2)',
-                    borderRadius: 'var(--r)',
-                    fontSize: '14px',
-                    color: 'var(--muted)',
-                    lineHeight: 1.6,
-                  }}
-                >
+                {/* Suggested tech stack */}
+                <div className="result-box" style={{ marginTop: '16px' }}>
+                  <h4>🛠 Suggested Tech Stack</h4>
+                  {result.stack.map((s, i) => (
+                    <div key={i} className="result-row" style={{ alignItems: 'flex-start', gap: '12px' }}>
+                      <span style={{ minWidth: '82px', flexShrink: 0, paddingTop: '2px' }}>{s.layer}</span>
+                      <div style={{ textAlign: 'right', flex: 1 }}>
+                        <div style={{ color: 'var(--accent2)', fontWeight: 600, fontSize: '13px' }}>{s.tech}</div>
+                        <div style={{ color: 'var(--muted)', fontSize: '11px', marginTop: '2px', lineHeight: 1.4 }}>{s.reason}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Competitor snapshot */}
+                <div className="result-box" style={{ marginTop: '16px' }}>
+                  <h4>🏆 Competitor Snapshot — {result.primaryIndustry}</h4>
+                  <p style={{ fontSize: '12px', color: 'var(--muted)', marginBottom: '10px', marginTop: '-8px' }}>
+                    Know who you&apos;re up against before you build.
+                  </p>
+                  {result.competitors.map((c, i) => (
+                    <div key={i} className="result-row">
+                      <span style={{ fontWeight: 600 }}>{c.name}</span>
+                      <span style={{ fontSize: '12px', color: 'var(--muted)', textAlign: 'right', maxWidth: '55%' }}>{c.note}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Recommendation message */}
+                <div style={{ marginTop: '16px', padding: '16px', background: 'rgba(200,240,74,0.08)', border: '0.5px solid rgba(200,240,74,0.2)', borderRadius: 'var(--r)', fontSize: '14px', color: 'var(--muted)', lineHeight: 1.6 }}>
                   {result.message}
                 </div>
 
