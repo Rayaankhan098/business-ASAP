@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SIAB — Startup in a Box</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #18181f;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0efe8;
+    --muted: #888880;
+    --accent: #c8f04a;
+    --accent2: #7c6aff;
+    --accent3: #ff6a3d;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --r: 14px;
+    --r2: 22px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    background: rgba(10,10,15,0.82);
+    backdrop-filter: blur(16px);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #0a0a0f !important;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 50px;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.88; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(124,106,255,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,240,74,0.1);
+    border: 0.5px solid rgba(200,240,74,0.3);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: var(--font-head);
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -3px;
+    color: var(--text);
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    max-width: 560px;
+    margin: 0 auto 40px;
+    font-size: 18px;
+    color: var(--muted);
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0f;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 32px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.18s, opacity 0.18s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    padding: 14px 32px;
+    border-radius: 50px;
+    border: 0.5px solid var(--border2);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-top: 72px;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--font-head);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -1px;
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 40px; }
+
+  .section-tag {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: var(--font-head);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .section-intro {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 520px;
+    font-weight: 300;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  /* ── HOW IT WORKS ── */
+  #how {
+    background: var(--bg2);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px;
+    margin-top: 56px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--r2);
+    overflow: hidden;
+  }
+
+  .pillar {
+    background: var(--bg2);
+    padding: 36px 32px;
+    position: relative;
+    border-right: 0.5px solid var(--border);
+    transition: background 0.2s;
+  }
+  .pillar:last-child { border-right: none; }
+  .pillar:hover { background: var(--bg3); }
+
+  .pillar-num {
+    font-family: var(--font-head);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .pillar-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .pillar h3 {
+    font-family: var(--font-head);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .pillar p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── IDEA WIZARD ── */
+  #wizard { background: var(--bg); }
+
+  .wizard-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: start;
+    margin-top: 56px;
+  }
+
+  .wizard-card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r2);
+    padding: 36px;
+  }
+
+  .wizard-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .wstep {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 0.5px solid var(--border);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .wstep:last-child { border-bottom: none; }
+  .wstep:hover { opacity: 0.8; }
+  .wstep.active .wstep-dot { background: var(--accent); color: #0a0a0f; }
+
+  .wstep-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 0.5px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: background 0.2s;
+    color: var(--muted);
+  }
+
+  .wstep-text strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .wstep-text span { font-size: 13px; color: var(--muted); }
+
+  .wizard-form-panels { }
+
+  .form-panel { display: none; }
+  .form-panel.active { display: block; }
+
+  .form-panel h3 {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .form-panel p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .form-group { margin-bottom: 20px; }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  input[type=text],
+  input[type=email],
+  textarea,
+  select {
+    width: 100%;
+    background: var(--bg);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--r);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--accent2);
+  }
+
+  textarea { resize: vertical; min-height: 100px; }
+
+  select option { background: #1a1a25; }
+
+  .score-bar-wrap { margin-top: 8px; }
+  .score-bar {
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .score-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    border-radius: 3px;
+    width: 0;
+    transition: width 1s ease;
+  }
+  .score-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .chip {
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .chip.selected {
+    background: rgba(200,240,74,0.12);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .wizard-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .result-box {
+    background: var(--bg3);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--r2);
+    padding: 28px;
+    margin-top: 24px;
+  }
+  .result-box h4 {
+    font-family: var(--font-head);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 14px;
+  }
+  .result-row:last-child { border-bottom: none; }
+  .result-row span:first-child { color: var(--muted); }
+  .result-row span:last-child { font-weight: 500; color: var(--text); }
+  .badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge-green { background: rgba(200,240,74,0.15); color: var(--accent); }
+  .badge-amber { background: rgba(239,159,39,0.15); color: #ef9f27; }
+  .badge-purple { background: rgba(124,106,255,0.15); color: #a79eff; }
+
+  /* ── PRICING ── */
+  #pricing {
+    background: var(--bg2);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+    margin-top: 56px;
+  }
+
+  .pricing-card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r2);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pricing-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+
+  .pricing-card.featured {
+    border-color: var(--accent);
+    background: linear-gradient(160deg, rgba(200,240,74,0.06) 0%, var(--bg) 60%);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0a0a0f;
+    background: var(--accent);
+    padding: 3px 12px;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .pricing-tier {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .pricing-name {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .pricing-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .pricing-price {
+    margin-bottom: 24px;
+  }
+
+  .price-main {
+    font-family: var(--font-head);
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -1px;
+  }
+  .price-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .price-equity {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent3);
+  }
+
+  .pricing-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .pricing-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .pricing-features li::before {
+    content: '✓';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pricing-card .btn-primary,
+  .pricing-card .btn-ghost {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* ── ROADMAP ── */
+  #roadmap { background: var(--bg); }
+
+  .timeline {
+    position: relative;
+    margin-top: 56px;
+    padding-left: 40px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .tl-item.visible { opacity: 1; transform: translateX(0); }
+
+  .tl-dot {
+    position: absolute;
+    left: -40px;
+    top: 4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg2);
+    border: 2px solid var(--accent2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+
+  .tl-phase {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .tl-title {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .tl-desc { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+
+  .tl-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .tl-task {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .tl-task::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border2);
+    flex-shrink: 0;
+  }
+
+  /* ── CTA ── */
+  #cta {
+    background: var(--bg2);
+    border-top: 0.5px solid var(--border);
+    text-align: center;
+  }
+  #cta h2 { margin-bottom: 16px; }
+  #cta p { color: var(--muted); max-width: 480px; margin: 0 auto 36px; font-size: 17px; }
+
+  .intake-form {
+    display: flex;
+    gap: 12px;
+    max-width: 480px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .intake-form input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--bg3);
+    border: 0.5px solid var(--border2);
+    border-radius: 50px;
+    padding: 14px 20px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+  }
+  .intake-form input::placeholder { color: var(--muted); }
+  .intake-form input:focus { border-color: var(--accent2); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg);
+    border-top: 0.5px solid var(--border);
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  footer p { font-size: 13px; color: var(--muted); }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+  .footer-links a:hover { color: var(--text); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--accent);
+    color: #0a0a0f;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 50px;
+    z-index: 999;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 72px 20px; }
+    .wizard-wrap { grid-template-columns: 1fr; }
+    .hero-stats { gap: 24px; }
+    .timeline { padding-left: 32px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">SIAB<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#wizard">Validate idea</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#cta" class="nav-cta">Get started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div>
+    <div class="hero-badge">Now onboarding founders</div>
+    <h1>Launch your<br/><em>tech startup</em><br/>in 30 days.</h1>
+    <p class="hero-sub">Code, office space, and team — all handled. SIAB turns your idea into a live business without the chaos.</p>
+    <div class="hero-actions">
+      <a href="#wizard" class="btn-primary">Validate my idea →</a>
+      <a href="#how" class="btn-ghost">See how it works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">3<span>wk</span></div>
+        <div class="stat-label">Average MVP delivery</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">60<span>%</span></div>
+        <div class="stat-label">Cost reduction vs agencies</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Services, one platform</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="section-tag">Platform</div>
+    <h2>Four pillars.<br/>One platform.</h2>
+    <p class="section-intro">Everything a non-technical founder needs — from idea to launch — in a single, orchestrated system.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <div class="pillar-icon" style="background: rgba(200,240,74,0.12);">🧠</div>
+        <h3>AI Idea Validation</h3>
+        <p>Submit your concept via an interactive wizard. Our AI engine generates a full Market Viability Report — market size, competitor matrix, and a live viability score.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <div class="pillar-icon" style="background: rgba(124,106,255,0.12);">⚡</div>
+        <h3>Rapid Tech Build</h3>
+        <p>Standardized boilerplates — auth, payments, push notifications, analytics — turn a 3-month custom build into a 3-week assembly line. Premium quality, fraction of the cost.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <div class="pillar-icon" style="background: rgba(255,106,61,0.12);">🏢</div>
+        <h3>Office Network</h3>
+        <p>Zero real estate risk. We're a high-volume broker partnered with co-working hubs across the region. Your plan includes digital access tokens for physical workspace.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">04</div>
+        <div class="pillar-icon" style="background: rgba(239,159,39,0.12);">👥</div>
+        <h3>On-Demand Talent</h3>
+        <p>Need marketers, designers, or legal consultants? Our vetted contractor ecosystem matches and delivers — with escrow-protected payments and a 15–25% platform guarantee.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IDEA WIZARD -->
+<section id="wizard">
+  <div class="container">
+    <div class="section-tag">Idea Intake</div>
+    <h2>Validate before<br/>you build.</h2>
+    <p class="section-intro">Run your idea through our 4-step assessment. Ideas scoring above 75% are fast-tracked to our engineering team.</p>
+
+    <div class="wizard-wrap">
+      <!-- Step Sidebar -->
+      <div class="wizard-steps" id="stepList">
+        <div class="wstep active" data-step="1">
+          <div class="wstep-dot">1</div>
+          <div class="wstep-text">
+            <strong>Your Idea</strong>
+            <span>Describe what you're building</span>
+          </div>
+        </div>
+        <div class="wstep" data-step="2">
+          <div class="wstep-dot">2</div>
+          <div class="wstep-text">
+            <strong>Market & Budget</strong>
+            <span>Target audience & investment</span>
+          </div>
+        </div>
+        <div class="wstep" data-step="3">
+          <div class="wstep-dot">3</div>
+          <div class="wstep-text">
+            <strong>Tech Needs</strong>
+            <span>What you need us to build</span>
+          </div>
+        </div>
+        <div class="wstep" data-step="4">
+          <div class="wstep-dot">4</div>
+          <div class="wstep-text">
+            <strong>Your Report</strong>
+            <span>Viability score & recommendation</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Panels -->
+      <div class="wizard-card">
+        <!-- Step 1 -->
+        <div class="form-panel active" id="panel-1">
+          <h3>Tell us about your idea</h3>
+          <p>A brief description is all we need to get started. Be specific about the problem you're solving.</p>
+          <div class="form-group">
+            <label>Startup name (or working title)</label>
+            <input type="text" id="startup-name" placeholder="e.g. QuickMed, DeliverPK, EduBot..." />
+          </div>
+          <div class="form-group">
+            <label>Describe your idea in 2–3 sentences</label>
+            <textarea id="idea-desc" placeholder="What problem does it solve? Who are your customers? What makes it different?"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Industry / Category</label>
+            <div class="chip-group" id="industry-chips">
+              <div class="chip" data-val="HealthTech">HealthTech</div>
+              <div class="chip" data-val="EdTech">EdTech</div>
+              <div class="chip" data-val="FinTech">FinTech</div>
+              <div class="chip" data-val="E-commerce">E-commerce</div>
+              <div class="chip" data-val="Logistics">Logistics</div>
+              <div class="chip" data-val="SaaS">SaaS</div>
+              <div class="chip" data-val="Social">Social</div>
+              <div class="chip" data-val="Other">Other</div>
+            </div>
+          </div>
+          <div class="wizard-nav">
+            <button class="btn-primary" onclick="goStep(2)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="form-panel" id="panel-2">
+          <h3>Market & investment</h3>
+          <p>Help us understand your target market and how much you're ready to invest in getting to launch.</p>
+          <div class="form-group">
+            <label>Target audience</label>
+            <input type="text" id="audience" placeholder="e.g. Small business owners in Lahore aged 25–45" />
+          </div>
+          <div class="form-group">
+            <label>Estimated market size</label>
+            <select id="mkt-size">
+              <option value="">Select range...</option>
+              <option value="local">Local / City-level</option>
+              <option value="national">National (Pakistan)</option>
+              <option value="regional">Regional (South Asia)</option>
+              <option value="global">Global</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Investment capacity</label>
+            <div class="chip-group" id="budget-chips">
+              <div class="chip" data-val="<1k">Under $1k</div>
+              <div class="chip" data-val="1-5k">$1k – $5k</div>
+              <div class="chip" data-val="5-15k">$5k – $15k</div>
+              <div class="chip" data-val="15k+">$15k+</div>
+              <div class="chip" data-val="equity">Equity deal</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Launch timeline</label>
+            <select id="timeline">
+              <option value="">Select timeline...</option>
+              <option value="asap">ASAP (1–4 weeks)</option>
+              <option value="1-3m">1–3 months</option>
+              <option value="3-6m">3–6 months</option>
+              <option value="flexible">Flexible</option>
+            </select>
+          </div>
+          <div class="wizard-nav">
+            <button class="btn-ghost" onclick="goStep(1)">← Back</button>
+            <button class="btn-primary" onclick="goStep(3)">Continue →</button>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="form-panel" id="panel-3">
+          <h3>What do you need?</h3>
+          <p>Select everything you'd like SIAB to handle. We'll scope this into a recommended tier.</p>
+          <div class="form-group">
+            <label>Tech deliverables needed</label>
+            <div class="chip-group" id="tech-chips">
+              <div class="chip" data-val="web">Web App / Website</div>
+              <div class="chip" data-val="mobile">Mobile App</div>
+              <div class="chip" data-val="api">Backend / API</div>
+              <div class="chip" data-val="admin">Admin Dashboard</div>
+              <div class="chip" data-val="payments">Payment Integration</div>
+              <div class="chip" data-val="ai">AI / LLM Features</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Additional services</label>
+            <div class="chip-group" id="services-chips">
+              <div class="chip" data-val="office">Co-working Space</div>
+              <div class="chip" data-val="marketing">Growth Marketing</div>
+              <div class="chip" data-val="design">UI/UX Design</div>
+              <div class="chip" data-val="legal">Legal / Compliance</div>
+              <div class="chip" data-val="pm">Project Manager</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Your email (for the report)</label>
+            <input type="email" id="email" placeholder="founder@example.com" />
+          </div>
+          <div class="wizard-nav">
+            <button class="btn-ghost" onclick="goStep(2)">← Back</button>
+            <button class="btn-primary" onclick="runAnalysis()">Generate Report →</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Result -->
+        <div class="form-panel" id="panel-4">
+          <h3>Your Viability Report</h3>
+          <p>AI analysis complete. Here's your startup assessment.</p>
+
+          <div style="margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 14px; color: var(--muted);">Overall viability score</span>
+              <span id="score-val" style="font-family: var(--font-head); font-weight: 800; font-size: 18px; color: var(--accent);"></span>
+            </div>
+            <div class="score-bar"><div class="score-bar-fill" id="score-fill"></div></div>
+            <div class="score-label"><span>Not viable</span><span>Fast-tracked ✓</span></div>
+          </div>
+
+          <div class="result-box">
+            <h4>Assessment breakdown</h4>
+            <div class="result-row">
+              <span>Market Opportunity</span>
+              <span id="r-market"></span>
+            </div>
+            <div class="result-row">
+              <span>Technical Complexity</span>
+              <span id="r-tech"></span>
+            </div>
+            <div class="result-row">
+              <span>Competitive Landscape</span>
+              <span id="r-comp"></span>
+            </div>
+            <div class="result-row">
+              <span>Recommended Tier</span>
+              <span id="r-tier"></span>
+            </div>
+            <div class="result-row">
+              <span>Status</span>
+              <span id="r-status"></span>
+            </div>
+          </div>
+
+          <div id="result-msg" style="margin-top: 20px; padding: 16px; background: rgba(200,240,74,0.08); border: 0.5px solid rgba(200,240,74,0.2); border-radius: var(--r); font-size: 14px; color: var(--muted); line-height: 1.6;"></div>
+
+          <div class="wizard-nav" style="margin-top: 20px;">
+            <a href="#pricing" class="btn-primary">See pricing plans →</a>
+            <button class="btn-ghost" onclick="goStep(1)">Start over</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-tag">Pricing</div>
+    <h2>One tier for every<br/>stage of your journey.</h2>
+    <p class="section-intro">Flat fees, monthly retainers, or equity deals — structured around your current stage and goals.</p>
+
+    <div class="pricing-grid">
+      <!-- Tier 1 -->
+      <div class="pricing-card">
+        <div class="pricing-tier">Tier 1</div>
+        <div class="pricing-name">The Blueprint</div>
+        <div class="pricing-desc">For early-stage ideators with low budgets who need validation before committing capital.</div>
+        <div class="pricing-price">
+          <div class="price-main">$250<span style="font-size:18px; font-weight:400; color:var(--muted);">–$500</span></div>
+          <div class="price-note">One-time flat fee</div>
+        </div>
+        <ul class="pricing-features">
+          <li>AI Market Viability Report (10 pages)</li>
+          <li>Interactive Pitch Deck Builder</li>
+          <li>Competitor Matrix</li>
+          <li>1-Hour Architectural Scoping Call</li>
+        </ul>
+        <a href="#wizard" class="btn-ghost">Get started</a>
+      </div>
+
+      <!-- Tier 2 -->
+      <div class="pricing-card featured">
+        <div class="featured-badge">Most popular</div>
+        <div class="pricing-tier">Tier 2</div>
+        <div class="pricing-name">The Launchpad</div>
+        <div class="pricing-desc">For non-technical founders ready to go to market. Everything needed to launch and validate.</div>
+        <div class="pricing-price">
+          <div class="price-main">$5k<span style="font-size:18px; font-weight:400; color:var(--muted);">–$15k</span></div>
+          <div class="price-note">Based on scope complexity</div>
+        </div>
+        <ul class="pricing-features">
+          <li>Complete MVP Web Application</li>
+          <li>Basic Mobile App</li>
+          <li>Standard Boilerplate Integrations</li>
+          <li>3 Months Free Co-Working Vouchers</li>
+          <li>Hosting setup & deployment</li>
+        </ul>
+        <a href="#cta" class="btn-primary">Apply now →</a>
+      </div>
+
+      <!-- Tier 3 -->
+      <div class="pricing-card">
+        <div class="pricing-tier">Tier 3</div>
+        <div class="pricing-name">The Scale Engine</div>
+        <div class="pricing-desc">For funded startups and established businesses ready to accelerate growth and hiring.</div>
+        <div class="pricing-price">
+          <div class="price-main">$2.5k<span style="font-size:18px; font-weight:400; color:var(--muted);">/mo</span></div>
+          <div class="price-note">Monthly retainer, $6k max</div>
+        </div>
+        <ul class="pricing-features">
+          <li>Ongoing scale development</li>
+          <li>Dedicated vetted Project Manager</li>
+          <li>3 Full-Time Marketplace Contract Hours</li>
+          <li>Dedicated partner office space</li>
+          <li>Priority engineering queue</li>
+        </ul>
+        <a href="#cta" class="btn-ghost">Talk to us</a>
+      </div>
+
+      <!-- Tier 4 -->
+      <div class="pricing-card" style="border-color: rgba(255,106,61,0.3); background: linear-gradient(160deg, rgba(255,106,61,0.06) 0%, var(--bg) 60%);">
+        <div class="pricing-tier">Tier 4</div>
+        <div class="pricing-name">Co-Founder Circle</div>
+        <div class="pricing-desc">For exceptional high-potential ideas. We become your tech co-founder in exchange for equity.</div>
+        <div class="pricing-price">
+          <div class="price-equity">7% – 15% Equity</div>
+          <div class="price-note">+ minimal cost coverage</div>
+        </div>
+        <ul class="pricing-features">
+          <li>Zero / reduced upfront cash</li>
+          <li>All-inclusive: design, tech, space, advisory</li>
+          <li>Automated vestment schedule</li>
+          <li>Board advisory involvement</li>
+          <li>Long-term growth partnership</li>
+        </ul>
+        <a href="#cta" class="btn-ghost" style="border-color: rgba(255,106,61,0.4); color: #ff6a3d;">Apply for equity deal</a>
+      </div>
+    </div>
+
+    <!-- Auxiliary -->
+    <div style="margin-top: 40px; padding: 28px 32px; background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r2); display: flex; gap: 40px; flex-wrap: wrap;">
+      <div>
+        <div class="section-tag" style="margin-bottom: 8px;">Add-ons</div>
+        <p style="font-size: 14px; color: var(--muted);">DevOps & hosting retainers from <strong style="color: var(--text);">$99–$299/mo</strong> · Affiliate credits (AWS, Stripe, Google Workspace) with 10–30% commission pass-through · Custom module development at <strong style="color: var(--text);">$75–$150/hr</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="container">
+    <div class="section-tag">Execution Plan</div>
+    <h2>16 weeks from<br/>idea to live startup.</h2>
+    <p class="section-intro">A phased, milestone-driven roadmap that keeps risk low and momentum high.</p>
+
+    <div class="timeline">
+      <div class="tl-item" data-delay="0">
+        <div class="tl-dot">1</div>
+        <div class="tl-phase">Weeks 1–3</div>
+        <div class="tl-title">Smoke Test & Demand Validation</div>
+        <div class="tl-desc">Confirm actual willingness to pay before committing a single developer hour to architecture.</div>
+        <div class="tl-tasks">
+          <div class="tl-task">Launch a conversion-optimized landing page</div>
+          <div class="tl-task">Run $200–$500 ad campaign on LinkedIn & Meta</div>
+          <div class="tl-task">Target aspiring founders, PMs, and angel investors</div>
+          <div class="tl-task">Greenlight at 15–20 qualified consultation requests</div>
+        </div>
+      </div>
+
+      <div class="tl-item" data-delay="100">
+        <div class="tl-dot">2</div>
+        <div class="tl-phase">Weeks 4–7</div>
+        <div class="tl-title">Strategic Infrastructure Setup</div>
+        <div class="tl-desc">Lock in partnerships and operational back-ends before touching a line of code.</div>
+        <div class="tl-tasks">
+          <div class="tl-task">Negotiate SLAs with co-working hubs (zero asset risk)</div>
+          <div class="tl-task">Vet and contract 15 freelancers across key disciplines</div>
+          <div class="tl-task">Draft liability frameworks and ToS documents</div>
+          <div class="tl-task">Register as a separate business division</div>
+        </div>
+      </div>
+
+      <div class="tl-item" data-delay="200">
+        <div class="tl-dot">3</div>
+        <div class="tl-phase">Weeks 8–12</div>
+        <div class="tl-title">Internal Tech Stack Standardization</div>
+        <div class="tl-desc">Build the delivery engine — the boilerplates that make 3-month builds take 3 weeks.</div>
+        <div class="tl-tasks">
+          <div class="tl-task">Build production-ready boilerplate (Next.js + Supabase)</div>
+          <div class="tl-task">Automate spin-up scripts for AWS, Vercel, DigitalOcean</div>
+          <div class="tl-task">Build founder dashboard: milestones, marketplace, hosting</div>
+          <div class="tl-task">Integrate AI-powered idea intake wizard</div>
+        </div>
+      </div>
+
+      <div class="tl-item" data-delay="300">
+        <div class="tl-dot">4</div>
+        <div class="tl-phase">Weeks 13–16</div>
+        <div class="tl-title">Cohort Alpha Launch</div>
+        <div class="tl-desc">Onboard the first 3 pilot clients simultaneously and document every friction point.</div>
+        <div class="tl-tasks">
+          <div class="tl-task">Select top 3 high-quality leads from validation phase</div>
+          <div class="tl-task">Run as an engineering cohort in parallel</div>
+          <div class="tl-task">Track and log every bottleneck for pipeline optimization</div>
+          <div class="tl-task">Collect data loops for continuous improvement</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <div class="section-tag">Get started</div>
+    <h2>Ready to launch?</h2>
+    <p>Drop your email and we'll send you a discovery call link. No pressure, no commitment — just a real conversation about your idea.</p>
+    <div class="intake-form">
+      <input type="email" id="cta-email" placeholder="your@email.com" />
+      <button class="btn-primary" onclick="submitCTA()">Book a call →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 SIAB — Startup in a Box. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#">Terms</a>
+    <a href="#">Privacy</a>
+    <a href="#">Contact</a>
+    <a href="https://github.com/Rayaankhan098/business-ASAP" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── CHIP TOGGLES ──
+  document.querySelectorAll('.chip-group').forEach(group => {
+    group.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const multi = ['industry-chips','tech-chips','services-chips'].includes(group.id);
+        if (!multi) group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.toggle('selected');
+      });
+    });
+  });
+
+  // ── STEP NAVIGATION ──
+  let currentStep = 1;
+
+  document.querySelectorAll('.wstep').forEach(step => {
+    step.addEventListener('click', () => {
+      const s = parseInt(step.dataset.step);
+      if (s < currentStep) goStep(s);
+    });
+  });
+
+  function goStep(n) {
+    document.querySelector('.form-panel.active').classList.remove('active');
+    document.getElementById('panel-' + n).classList.add('active');
+
+    document.querySelector('.wstep.active').classList.remove('active');
+    document.querySelector('[data-step="' + n + '"]').classList.add('active');
+
+    currentStep = n;
+  }
+
+  // ── AI REPORT SIMULATION ──
+  function runAnalysis() {
+    const name = document.getElementById('startup-name').value || 'Your Startup';
+    const budget = document.querySelector('#budget-chips .chip.selected');
+    const mktSize = document.getElementById('mkt-size').value;
+    const techChips = document.querySelectorAll('#tech-chips .chip.selected');
+    const industry = document.querySelector('#industry-chips .chip.selected');
+
+    // Score factors
+    let score = 58;
+    if (budget) {
+      if (budget.dataset.val === '5-15k') score += 12;
+      else if (budget.dataset.val === '15k+') score += 18;
+      else if (budget.dataset.val === 'equity') score += 8;
+      else if (budget.dataset.val === '1-5k') score += 4;
+    }
+    if (mktSize === 'national') score += 8;
+    else if (mktSize === 'regional') score += 12;
+    else if (mktSize === 'global') score += 16;
+    if (techChips.length >= 2) score += 5;
+    if (industry) score += 3;
+
+    score = Math.min(score, 97);
+    const pct = score + '%';
+
+    goStep(4);
+
+    // Animate score bar
+    setTimeout(() => {
+      document.getElementById('score-fill').style.width = pct;
+    }, 200);
+
+    document.getElementById('score-val').textContent = score + ' / 100';
+
+    // Market
+    const mktLabels = { local: 'Moderate', national: 'Strong', regional: 'Very Strong', global: 'Exceptional', '': 'Moderate' };
+    document.getElementById('r-market').innerHTML = '<span class="badge badge-' + (score >= 75 ? 'green' : 'amber') + '">' + (mktLabels[mktSize] || 'Moderate') + '</span>';
+
+    // Tech
+    const techCount = techChips.length;
+    document.getElementById('r-tech').innerHTML = '<span class="badge badge-' + (techCount <= 2 ? 'green' : techCount <= 4 ? 'amber' : 'purple') + '">' + (techCount <= 2 ? 'Low complexity' : techCount <= 4 ? 'Medium' : 'High') + '</span>';
+
+    // Competition
+    document.getElementById('r-comp').innerHTML = '<span class="badge badge-amber">Moderate market</span>';
+
+    // Tier recommendation
+    const budgetVal = budget ? budget.dataset.val : '';
+    let tier = 'Tier 1 — The Blueprint';
+    if (budgetVal === 'equity') tier = 'Tier 4 — Co-Founder Circle';
+    else if (budgetVal === '15k+') tier = 'Tier 3 — Scale Engine';
+    else if (budgetVal === '5-15k') tier = 'Tier 2 — The Launchpad';
+    document.getElementById('r-tier').textContent = tier;
+
+    // Status
+    const fastTracked = score >= 75;
+    document.getElementById('r-status').innerHTML = fastTracked
+      ? '<span class="badge badge-green">✓ Fast-tracked</span>'
+      : '<span class="badge badge-amber">Needs refinement</span>';
+
+    // Message
+    document.getElementById('result-msg').textContent = fastTracked
+      ? `Great news! "${name}" has scored ${score}/100 and is eligible for fast-tracking to our engineering team. Book a scoping call and we'll have a proposal ready within 48 hours.`
+      : `"${name}" shows real potential but needs some refinement before fast-tracking. We recommend starting with The Blueprint tier to sharpen your market positioning and technical scope.`;
+  }
+
+  // ── CTA SUBMIT ──
+  function submitCTA() {
+    const email = document.getElementById('cta-email').value;
+    if (!email || !email.includes('@')) {
+      showToast('Please enter a valid email!');
+      return;
+    }
+    showToast('🎉 Booking link sent to ' + email);
+    document.getElementById('cta-email').value = '';
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  // ── TIMELINE SCROLL ANIMATION ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const delay = parseInt(e.target.dataset.delay || 0);
+        setTimeout(() => e.target.classList.add('visible'), delay);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.tl-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
