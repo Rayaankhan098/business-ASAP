@@ -7,6 +7,13 @@ export default function Footer() {
         <a href="#">Privacy</a>
         <a href="#">Contact</a>
         <a
+          href="https://www.instagram.com/business_asap"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram
+        </a>
+        <a
           href="https://github.com/Rayaankhan098/business-ASAP"
           target="_blank"
           rel="noopener noreferrer"
